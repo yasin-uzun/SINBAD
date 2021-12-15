@@ -1,4 +1,5 @@
 library(doSNOW)
+library(readr)
 
 call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_dir, log_dir, bme_param_settings)
 {
