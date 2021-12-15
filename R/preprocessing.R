@@ -163,7 +163,6 @@ read_demux_logs <- function(main_log_dir)
   return(df_demux_combined)
 }#read_demux_logs
 
-#source("/mnt/isilon/tan_lab/uzuny/projects/sinbad/package/p99/MethylProc/R/preprocessing.R")
 
 trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
 {
