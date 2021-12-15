@@ -1,8 +1,5 @@
 library(doSNOW)
 
-#source('/mnt/isilon/tan_lab/uzuny/scripts/R_utilities/biology.v07.R')
-source('/mnt/isilon/tan_lab/uzuny/scripts/R_utilities/seurat_plotting.v03.R')
-
 test <- function()
 {
   cat('SINBAD installation is ok.\n')
