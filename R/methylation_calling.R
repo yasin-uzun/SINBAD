@@ -365,11 +365,11 @@ plot_split_reports <- function(df_org_split_reports, df_lambda_split_reports, li
   {
     if(is.character(df_org_split_reports[,i]) )
     {
-      df_org_split_reports[,i] = parse_number(df_org_split_reports[,i])
+      df_org_split_reports[,i] = readr::parse_number(df_org_split_reports[,i])
     }
     if(is.character(df_lambda_split_reports[,i]) & lambda_flag )
     {
-      df_lambda_split_reports[,i] = parse_number(df_lambda_split_reports[,i])
+      df_lambda_split_reports[,i] = readr::parse_number(df_lambda_split_reports[,i])
     }
   }
 
