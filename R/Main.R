@@ -200,7 +200,7 @@ wrap_plot_preprocessing_stats <- function(sinbad_object)
   dir.create(paste0(sinbad_object$plot_dir, '/QC/'), recursive = T)
 
   plot_file = paste0(sinbad_object$plot_dir, '/QC/Preprocessing_statistics.eps')
-  postscript(plot_file, paper = 'a4', horizontal = T, title = sample_name)
+  postscript(plot_file, paper = 'a4', horizontal = T, title = sinbad_object$sample_name)
   #postscript(plot_file, paper = 'special', horizontal = F, width = 8, height = 8, title = sample_name)
 
   stat1 = plot_preprocessing_results(sample_name = sinbad_object$sample_name,
@@ -520,7 +520,7 @@ wrap_plot_met_stats <- function(sinbad_object)
 
   plot_file = paste0(sinbad_object$plot_dir, '/QC/Met_call_statistics.eps')
   postscript(plot_file, paper = 'a4', horizontal = T, title = sinbad_object$sample_name)
-  plot_split_reports(sample_name = sinbad_object$sample_name, 
+  plot_split_reports(sample_name = sinbad_object$sample_name,
                      df_org_split_reports = sinbad_object$df_org_split_reports,
                      df_lambda_split_reports = sinbad_object$df_lambda_split_reports,
                      list_org_bias_reports = sinbad_object$list_org_bias_reports,
@@ -530,7 +530,7 @@ wrap_plot_met_stats <- function(sinbad_object)
 
   plot_file = paste0(sinbad_object$plot_dir, '/QC/Met_call_statistics.png')
   png(plot_file, width = 800, height = 600)
-  plot_split_reports(sample_name = sinbad_object$sample_name, 
+  plot_split_reports(sample_name = sinbad_object$sample_name,
                      sinbad_object$df_org_split_reports,
                      sinbad_object$df_lambda_split_reports,
                      sinbad_object$list_org_bias_reports,
@@ -540,7 +540,7 @@ wrap_plot_met_stats <- function(sinbad_object)
 
   plot_file = paste0(sinbad_object$plot_dir, '/QC/Met_call_statistics.pdf')
   pdf(plot_file, width = 10, height = 7)
-  plot_split_reports(sample_name = sinbad_object$sample_name, 
+  plot_split_reports(sample_name = sinbad_object$sample_name,
                      sinbad_object$df_org_split_reports,
                      sinbad_object$df_lambda_split_reports,
                      sinbad_object$list_org_bias_reports,
