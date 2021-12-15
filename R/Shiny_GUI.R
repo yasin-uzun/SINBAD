@@ -1,10 +1,14 @@
 library(shiny)
 
 ui <- fluidPage(
+#ui <- fixedPage(
+
+  tags$head(tags$style(HTML('#sidebar {width: 250px;}'))),
+
   titlePanel("SINBAD"),
 
   sidebarLayout(
-    sidebarPanel(
+    sidebarPanel( id = "sidebar",
       #helpText("Parameter settings"),
 
       tabsetPanel(
@@ -102,10 +106,11 @@ ui <- fluidPage(
     mainPanel(
       #textOutput("selected_var"),
       #textOutput("min_max")
-      mainPanel(
-        # Use imageOutput to place the image on the page
-        imageOutput("myImage")
-      )
+      # Use imageOutput to place the image on the page
+
+        imageOutput("myImage", width = "100%")
+
+
     )
   )
 )
@@ -124,13 +129,12 @@ server <- function(input, output) {
   })
 
 
-  observeEvent(input$btn_align_stats, {
+  observeEvent(input$btn_pp_stats, {
 
     outfile = paste0(sinbad_object$plot_dir,  "/QC/Preprocessing_statistics.png")
     error_msg = paste(outfile, 'cannot be found.')
     output$myImage <- renderImage({
 
-      # Return a list containing the filename
       list(src = outfile,
            contentType = 'image/png',
            width = 800,
@@ -142,7 +146,9 @@ server <- function(input, output) {
 
 
 
-  observeEvent(input$btn_pp_stats, {
+
+
+  observeEvent(input$btn_align_stats, {
 
     outfile = paste0(sinbad_object$plot_dir,  "/QC/Alignment_statistics.png")
     error_msg = paste(outfile, 'cannot be found.')
@@ -180,5 +186,8 @@ server <- function(input, output) {
 
 }
 
+
 shinyApp(ui, server)
+
+#runGadget(ui, server, viewer = dialogViewer("Dialog Title", width = 1000, height = 800))
 

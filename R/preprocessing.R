@@ -351,7 +351,7 @@ plot_preprocessing_results <- function(sample_name, demux_reports, demux_read_co
 {
   font.face = 'Helvetica'
   font.size = 1.5
-  color_vec = hue_pal()(3)
+  color_vec = scales::hue_pal()(3)
   sep.lwd = 1
 
   #sep.color = "#33a02c"

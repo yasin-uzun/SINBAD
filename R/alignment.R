@@ -3,6 +3,7 @@ library(doSNOW)
 library(readr)
 library(Rsamtools)
 library(ShortRead)
+library(scales)
 
 
 align_sample <- function(read_dir,
@@ -712,7 +713,7 @@ plot_alignment_stats <- function(sample_name, df_alignment_stats)
 
   font.face = 'Helvetica'
   font.size = 1.5
-  color_vec = hue_pal()(3)
+  color_vec = scales::hue_pal()(3)
   sep.lwd = 1
   #sep.color = "#33a02c"
 

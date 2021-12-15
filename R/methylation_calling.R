@@ -1,5 +1,6 @@
 library(doSNOW)
 library(readr)
+library(scales)
 
 call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_dir, log_dir, bme_param_settings)
 {
@@ -353,7 +354,7 @@ plot_site_counts <- function(call_counts, log_scale = F)
 }
 
 
-plot_split_reports <- function(df_org_split_reports, df_lambda_split_reports, list_org_bias_reports,
+plot_split_reports <- function(sample_name = '', df_org_split_reports, df_lambda_split_reports, list_org_bias_reports,
                                list_met_call_counts, log_scale = F, lambda_flag = F)
 {
 
@@ -365,11 +366,11 @@ plot_split_reports <- function(df_org_split_reports, df_lambda_split_reports, li
   {
     if(is.character(df_org_split_reports[,i]) )
     {
-      df_org_split_reports[,i] = readr::parse_number(df_org_split_reports[,i])
+      df_org_split_reports[,i] = parse_number(df_org_split_reports[,i])
     }
     if(is.character(df_lambda_split_reports[,i]) & lambda_flag )
     {
-      df_lambda_split_reports[,i] = readr::parse_number(df_lambda_split_reports[,i])
+      df_lambda_split_reports[,i] = parse_number(df_lambda_split_reports[,i])
     }
   }
 
@@ -434,7 +435,7 @@ plot_split_reports <- function(df_org_split_reports, df_lambda_split_reports, li
 
   font.face = 'Helvetica'
   font.size = 1.5
-  color_vec = hue_pal()(3)
+  color_vec = scales::hue_pal()(3)
   sep.lwd = 1
   #sep.color = "#33a02c"
 

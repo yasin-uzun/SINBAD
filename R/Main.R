@@ -1,4 +1,5 @@
 library(doSNOW)
+library(scales)
 
 test <- function()
 {
@@ -519,7 +520,8 @@ wrap_plot_met_stats <- function(sinbad_object)
 
   plot_file = paste0(sinbad_object$plot_dir, '/QC/Met_call_statistics.eps')
   postscript(plot_file, paper = 'a4', horizontal = T, title = sinbad_object$sample_name)
-  plot_split_reports(df_org_split_reports = sinbad_object$df_org_split_reports,
+  plot_split_reports(sample_name = sinbad_object$sample_name, 
+                     df_org_split_reports = sinbad_object$df_org_split_reports,
                      df_lambda_split_reports = sinbad_object$df_lambda_split_reports,
                      list_org_bias_reports = sinbad_object$list_org_bias_reports,
                      list_met_call_counts = sinbad_object$list_met_call_counts,
@@ -528,7 +530,8 @@ wrap_plot_met_stats <- function(sinbad_object)
 
   plot_file = paste0(sinbad_object$plot_dir, '/QC/Met_call_statistics.png')
   png(plot_file, width = 800, height = 600)
-  plot_split_reports(sinbad_object$df_org_split_reports,
+  plot_split_reports(sample_name = sinbad_object$sample_name, 
+                     sinbad_object$df_org_split_reports,
                      sinbad_object$df_lambda_split_reports,
                      sinbad_object$list_org_bias_reports,
                      list_met_call_counts = sinbad_object$list_met_call_counts,
@@ -537,7 +540,8 @@ wrap_plot_met_stats <- function(sinbad_object)
 
   plot_file = paste0(sinbad_object$plot_dir, '/QC/Met_call_statistics.pdf')
   pdf(plot_file, width = 10, height = 7)
-  plot_split_reports(sinbad_object$df_org_split_reports,
+  plot_split_reports(sample_name = sinbad_object$sample_name, 
+                     sinbad_object$df_org_split_reports,
                      sinbad_object$df_lambda_split_reports,
                      sinbad_object$list_org_bias_reports,
                      list_met_call_counts = sinbad_object$list_met_call_counts,
@@ -881,7 +885,7 @@ wrap_dmr_analysis <- function(sinbad_object,
   head(df_annot)
   sig_mat[1:5, 1:5]
   num_clus = length(unique(sorted_clusters))
-  colors1 = hue_pal()(num_clus)
+  colors1 = scales::hue_pal()(num_clus)
   names(colors1) = as.character(1:num_clus)
 
   ann_colors = list(
