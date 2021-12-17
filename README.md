@@ -17,7 +17,9 @@ Once you have installed the SINBAD, verify that it is installed correctly as fol
 SINBAD::test()
 ```
 If SINBAD is installed without any problems, you should see the following message:<br /> 
-`SINBAD installation is ok.`
+```R
+>SINBAD installation is ok.
+```
 
 ## Dependencies 
 
