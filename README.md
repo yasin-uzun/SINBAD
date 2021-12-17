@@ -75,7 +75,7 @@ To try SINBAD with some example data, please contact the authors (see below).
 
 ## Citation
 If you use SINBAD in your study, please cite it as follows: SINBAD: A pipeline for processing SINgle cell Bisulfite sequencing samples and Analysis of Data
-, GitHub, 2020. 
+, GitHub, 2021. 
 
 ## Contact
 For any questions or comments, please contact Yasin Uzun (uzuny at email chop edu)
