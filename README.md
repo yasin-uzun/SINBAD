@@ -37,6 +37,10 @@ You can download demultiplex_fastq.pl script from [here](https://chopri.box.com/
 
 You also need genomic sequence and annotated genomic regions for quantification of methylation calls. We provide the sequence data for hg38 assembly in [here](https://chopri.box.com/s/rf6fk2gumtbe3au83msxniwnkzkukvr5).
 
+## Graphical User Interface
+
+SINBAD has an easy to use Graphical User Interface (GUI). Detailed instructions for the GUI is available in the [INBAD User Manual](https://github.com/yasin-uzun/SINBAD/blob/main/SINBAD_User_Manual.pdf).
+
 ## Configuration
 
 To run SINBAD, you need three configuration files to modify:
