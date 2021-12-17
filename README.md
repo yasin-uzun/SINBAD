@@ -74,7 +74,9 @@ This function reads fastq files, demultiplexes them into single cells, performs 
 To try SINBAD with some example data, please contact the authors (see below). 
 
 ## Citation
-If you use SINBAD in your study, please cite it as follows: SINBAD: A pipeline for processing SINgle cell Bisulfite sequencing samples and Analysis of Data
+If you use SINBAD in your study, please cite it as follows: 
+
+SINBAD: A pipeline for processing SINgle cell Bisulfite sequencing samples and Analysis of Data
 , GitHub, 2021. 
 
 ## Contact
