@@ -7,20 +7,13 @@ NOTE: SINBAD 1.0 is tested on paired snmC-Seq data.
 R 3.6.0 or later version is required for installation.  
 
 ## Installation
-To install SINBAD, install vioplot first:
+To install SINBAD, type the following command in R command prompt:
 ```R
-install.packages("vioplot")
-```
-
-Then type the following commands in R command prompt:
-```R
-library(devtools)
-install_github("yasin-uzun/SINBAD")
+devtools::install_github("yasin-uzun/SINBAD")
 ```
 Once you have installed the SINBAD, verify that it is installed correctly as follows:
 
 ```R
-library(SINBAD)
 SINBAD::test()
 ```
 If SINBAD is installed without any problems, you should see the following message:<br /> 
