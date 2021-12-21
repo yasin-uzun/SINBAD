@@ -44,7 +44,7 @@ You also need genomic sequence and annotated genomic regions for quantification 
 
 ## Graphical User Interface
 
-SINBAD has an easy to use Graphical User Interface (GUI). Detailed instructions for the GUI is available in the [SINBAD User Manual](docs/SINBAD_User_Manual.pdf).
+SINBAD has an easy to use Graphical User Interface (GUI). Detailed instructions for the GUI are available in the [SINBAD User Manual](docs/SINBAD_User_Manual.pdf).
 
 <p align="center">
   <img src="docs/SINBAD_alignment.png" width="800" title="">
