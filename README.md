@@ -80,7 +80,7 @@ process_sample_wrapper(raw_fastq_dir, demux_index_file, working_dir, sample_name
 This function reads fastq files, demultiplexes them into single cells, performs filtering, mapping (alignment), DNA methylation calling  and quantification, dimensionality reduction, clustering and differential methylation analysis for the given input. All the outputs are placed into related directories in `working_dir`.
 
 ## Example Data
-To try SINBAD with some example data, please contact the authors (see below). 
+For testing SINBAD, we provide [sample raw read (fastq) data](https://chopri.box.com/s/7cu5cc655sq267o3pvdh29ar20n89nnw)
 
 ## Citation
 If you use SINBAD in your study, please cite it as follows: 
