@@ -1,1 +1,6 @@
 .Rhistory
+.Rproj.user
+/inst/doc
+/Meta/
+/private
+test_script.R*
