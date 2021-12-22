@@ -1,4 +1,4 @@
-library(densityClust)
+# # library(densityClust)
 
 dens_clus <- function(dim_red, rho_threshold=1, delta_threshold=1){
   dataDist <- dist(dim_red)

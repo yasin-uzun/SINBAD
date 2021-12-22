@@ -1,5 +1,5 @@
-library(ShortRead)
-library(scales)
+# library(ShortRead)
+# library(scales)
 
 
 get_fast_files <- function(fastq_dir, pattern = '')
@@ -36,10 +36,10 @@ get_r2_indeces_from_r1 <- function(r1_fastq_dir, r2_input_fastq_dir, r2_output_f
   if(num_cores > 1)
   {
     thread_count = min(r1_fastq_file_count, num_cores)
-    cl <- makeCluster(thread_count, outfile="", type = 'SOCK')
-    registerDoSNOW(cl)
+    cl <-parallel::makeCluster(thread_count, outfile="", type = 'SOCK')
+    doSNOW::registerDoSNOW(cl)
 
-    foreach(i=1:r1_fastq_file_count, .export = ls(globalenv()) ) %dopar%
+    foreach::foreach(i=1:r1_fastq_file_count, .export = ls(globalenv()) ) %dopar%
     {
       r1_fastq_file = r1_fastq_files[i]
       print(r1_fastq_file)
@@ -55,9 +55,9 @@ get_r2_indeces_from_r1 <- function(r1_fastq_dir, r2_input_fastq_dir, r2_output_f
       print(command)
       system(command)
 
-    }#foreach(i=1:length(raw_fastq_files))
+    }#foreach::foreach(i=1:length(raw_fastq_files))
 
-    stopCluster(cl)
+    parallel::stopCluster(cl)
 
 
 
@@ -80,7 +80,7 @@ get_r2_indeces_from_r1 <- function(r1_fastq_dir, r2_input_fastq_dir, r2_output_f
       print(command)
       system(command)
 
-    }#foreach(i=1:length(raw_fastq_files))
+    }#foreach::foreach(i=1:length(raw_fastq_files))
 
 
   }
@@ -110,9 +110,9 @@ demux_fastq_files <- function(raw_fastq_dir, demux_index_file, demux_index_lengt
   {
     raw_fastq_file_count = length(raw_fastq_files)
     thread_count = min(raw_fastq_file_count, num_cores)
-    cl <- makeCluster(thread_count, outfile="", type = 'SOCK')
-    registerDoSNOW(cl)
-    foreach(i=1:raw_fastq_file_count, .export = ls(globalenv()) ) %dopar%
+    cl <-parallel::makeCluster(thread_count, outfile="", type = 'SOCK')
+    doSNOW::registerDoSNOW(cl)
+    foreach::foreach(i=1:raw_fastq_file_count, .export = ls(globalenv()) ) %dopar%
     {
       raw_fastq_file = raw_fastq_files[i]
       print(raw_fastq_file)
@@ -130,9 +130,9 @@ demux_fastq_files <- function(raw_fastq_dir, demux_index_file, demux_index_lengt
       print(demux_command)
       system(demux_command)
 
-    }#foreach(i=1:length(raw_fastq_files))
+    }#foreach::foreach(i=1:length(raw_fastq_files))
 
-    stopCluster(cl)
+    parallel::stopCluster(cl)
 
   }#if(num_cores > 1)
 
@@ -182,9 +182,9 @@ trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
 
   if(num_cores > 1)
   {
-    cl <- makeCluster(num_cores, outfile="", type = 'SOCK')
-    registerDoSNOW(cl)
-    clusterExport(cl, ls(), envir = environment())
+    cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+    doSNOW::registerDoSNOW(cl)
+    parallel::clusterExport(cl, ls(), envir = environment())
 
 
     if(sequencing_type  == 'paired')
@@ -193,7 +193,7 @@ trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
     }
 
     print('*******************Trimming....')
-    foreach(i=1:length(demux_fastq_files), .export = ls(globalenv())) %dopar%
+    foreach::foreach(i=1:length(demux_fastq_files), .export = ls(globalenv())) %dopar%
     {
       fastq_file = demux_fastq_files[i]
       print(paste('Input fastq: ', fastq_file) )
@@ -262,7 +262,7 @@ trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
 
 
 
-    }#foreach(i=1:length(raw_fastq_files))
+    }#foreach::foreach(i=1:length(raw_fastq_files))
 
   }#if(num_cores > 1)
 
@@ -324,15 +324,15 @@ count_fastq_reads <- function(fastq_dir)
   print(paste('Now counting reads inside fastqs '))
 
 
-  cl <- makeCluster(num_cores, outfile="", type = 'SOCK')
-  registerDoSNOW(cl)
-  clusterExport(cl, ls(), envir = environment())
-  #clusterExport(cl, varlist = ls(), envir = environment())
+  cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+  doSNOW::registerDoSNOW(cl)
+  parallel::clusterExport(cl, ls(), envir = environment())
+  #parallel::clusterExport(cl, varlist = ls(), envir = environment())
 
   #read_counts = c()
-  line_counts_list = foreach(i=1:length(fastq_files), .export = ls(globalenv())) %dopar%
+  line_counts_list = foreach::foreach(i=1:length(fastq_files), .export = ls(globalenv())) %dopar%
   {
-    library(ShortRead)
+    # library(ShortRead)
     fastq_file = fastq_files[i]
     print(fastq_file)
     countLines(fastq_dir, fastq_file)

@@ -1,6 +1,6 @@
-library(dplyr)
-library(data.table)
-library(GenomicRanges)
+# library(dplyr)
+# library(data.table)
+# library(GenomicRanges)
 
 read_region_annot <- function(region_annot_file, format_file, type_filtering =  'none')
 {
@@ -52,8 +52,8 @@ get_promoters <- function(df_gene_annot)
 convert_to_granges <- function(df_region)
 {
 
-    gr_region <- with(df_region, GRanges(chrom,
-                                           IRanges(start+1, end),
+    gr_region <- with(df_region, GenomicRanges::GRanges(chrom,
+                                           GenomicRanges::IRanges(start+1, end),
                                            strand = '*',
                                            region_name,
                                            region_type))
@@ -105,7 +105,7 @@ compute_call_count_matrices <- function(  df_region,
 {
 
 
-  gr_region = convert_to_granges(df_region)
+  gr_region = convert_to_GenomicRanges::GRanges(df_region)
   setwd(methylation_calls_dir)
   pattern  = paste0(methylation_type, '.*organism.cov.gz')
   cov_files = list.files(methylation_calls_dir, pattern)
@@ -114,15 +114,15 @@ compute_call_count_matrices <- function(  df_region,
 
   result_list = list()
 
-  cl <- makeCluster(num_cores, outfile="", type = 'SOCK')
-  registerDoSNOW(cl)
+  cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+  doSNOW::registerDoSNOW(cl)
 
   #for(i in  1:length(cov_files))
-  #result_list <- foreach(i=1:length(cov_files)) %dopar%
-  met_hits_list <- foreach(i=1:length(cov_files)) %dopar%
+  #result_list <- foreach::foreach(i=1:length(cov_files)) %dopar%
+  met_hits_list <- foreach::foreach(i=1:length(cov_files)) %dopar%
   {
-    library(data.table)
-    library(GenomicRanges)
+    # library(data.table)
+    # library(GenomicRanges)
 
     print('************************')
     print(i)
@@ -159,14 +159,14 @@ compute_call_count_matrices <- function(  df_region,
     head(dt_cov)
     unique(dt_cov$chr)
 
-    gr_cov <- with(dt_cov, GRanges(chrom, IRanges(start+1, end), strand = '*', met_rate, met, demet)  )
+    gr_cov <- with(dt_cov, GenomicRanges::GRanges(chrom, GenomicRanges::IRanges(start+1, end), strand = '*', met_rate, met, demet)  )
     gr_cov
 
     #dt_inter = data.table(intersect_bed(gr_region, gr_cov))
     #dim(dt_inter)
     #head(dt_inter)
 
-    hits_obj <- findOverlaps(gr_region, gr_cov)
+    hits_obj <- GenomicAlignments::findOverlaps(gr_region, gr_cov)
     class(hits_obj)
     da = as.data.frame(gr_region[queryHits(hits_obj)])
     db = as.data.frame(gr_cov[subjectHits(hits_obj)])
@@ -199,7 +199,7 @@ compute_call_count_matrices <- function(  df_region,
     df_aggr_x
   }
 
-  stopCluster(cl)  #not reached
+  parallel::stopCluster(cl)  #not reached
 
   temp = met_hits_list
   cell_ids = cov_files

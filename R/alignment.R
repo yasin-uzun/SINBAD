@@ -1,9 +1,9 @@
-library(doSNOW)
-#library(vioplot)
-library(readr)
-library(Rsamtools)
-library(ShortRead)
-library(scales)
+# library(doSNOW)
+# library(vioplot)
+# library(readr)
+# library(Rsamtools)
+# library(ShortRead)
+# library(scales)
 
 
 align_sample <- function(read_dir,
@@ -34,13 +34,13 @@ align_sample <- function(read_dir,
 
   if(num_cores > 1)
   {
-    cl <- makeCluster(num_cores, outfile="", type = 'SOCK')
+    cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
 
-    clusterExport(cl, ls(.GlobalEnv))
-    registerDoSNOW(cl)
-    clusterExport(cl, ls(.GlobalEnv))
+    parallel::clusterExport(cl, ls(.GlobalEnv))
+    doSNOW::registerDoSNOW(cl)
+    parallel::clusterExport(cl, ls(.GlobalEnv))
 
-    foreach(i=1:length(fastq_files)) %dopar%
+    foreach::foreach(i=1:length(fastq_files)) %dopar%
       {
         fastq_file = fastq_files[i]
         print( fastq_file)
@@ -59,7 +59,7 @@ align_sample <- function(read_dir,
                      aligner_param_settings = aligner_param_settings)
         }
 
-      }#foreach
+      }#foreach::foreach
   }else#if(num_cores > 1)
   {
     for(i in 1:length(fastq_files))
@@ -84,7 +84,7 @@ align_sample <- function(read_dir,
                    log_dir = alignment_log_dir)
       }
 
-    }#foreach
+    }#foreach::foreach
 
 
 
@@ -768,7 +768,7 @@ plot_alignment_stats <- function(sample_name, df_alignment_stats)
 
   if(is.character( df_alignment_stats$Alignment_rate) )
   {
-    df_alignment_stats$Alignment_rate =   parse_number(df_alignment_stats$Alignment_rate)
+    df_alignment_stats$Alignment_rate =   readr::parse_number(df_alignment_stats$Alignment_rate)
   }
 
   alignment_rates = df_alignment_stats$Alignment_rate
@@ -1005,38 +1005,38 @@ count_bam_files <- function(alignment_dir)
   nc_filtered_files = list.files(pattern = '.*.nonCG_filtered.bam$')
   organism_bam_files = list.files(pattern = '.*.organism.bam$')
 
-  #cl <- makeCluster(num_cores, outfile="", type = 'SOCK')
-  #registerDoSNOW(cl)
+  #cl <- parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+  #doSNOW::registerDoSNOW(cl)
 
   #temp = mapq_files[1:10]
 
   #t1 = Sys.time()
-  #temp1 = mcsapply(temp, FUN = countBam, mc.cores = 10)
+  #temp1 = SINBAD::mcsapply(temp, FUN = countBam, mc.cores = 10)
   #t2 = Sys.time()
   #print(t2-t1)
 
-  library(ShortRead)
+  # library(ShortRead)
 
   print('Counting mapq filtered bam files')
-  df_mapq_read_counts = mcsapply(mapq_files, FUN = countBam, mc.cores = num_cores)
+  df_mapq_read_counts = SINBAD::mcsapply(mapq_files, FUN = countBam, mc.cores = num_cores)
   mapq_read_counts = unlist(df_mapq_read_counts['records', ] )
   names(mapq_read_counts) = gsub('.mapq_filtered.bam', '', names(mapq_read_counts))
 
 
   print('Counting rmdup filtered bam files')
-  df_rmdup_read_counts = mcsapply(rmdup_files, FUN = countBam, mc.cores = num_cores)
+  df_rmdup_read_counts = SINBAD::mcsapply(rmdup_files, FUN = countBam, mc.cores = num_cores)
   rmdup_read_counts = unlist(df_rmdup_read_counts['records', ] )
   names(rmdup_read_counts) = gsub('.rmdup.bam', '', names(rmdup_read_counts))
 
 
   print('Counting nonconversion filtered bam files')
-  df_nc_filtered_read_counts = mcsapply(nc_filtered_files, FUN = countBam, mc.cores = num_cores)
+  df_nc_filtered_read_counts = SINBAD::mcsapply(nc_filtered_files, FUN = countBam, mc.cores = num_cores)
   nc_filtered_read_counts = unlist(df_nc_filtered_read_counts['records', ] )
   names(nc_filtered_read_counts) = gsub('.rmdup.nonCG_filtered.bam', '', names(nc_filtered_read_counts))
 
 
   print('Counting organism bam files')
-  df_organism_read_counts = mcsapply(organism_bam_files, FUN = countBam, mc.cores = num_cores)
+  df_organism_read_counts = SINBAD::mcsapply(organism_bam_files, FUN = countBam, mc.cores = num_cores)
   organism_read_counts = unlist(df_organism_read_counts['records', ] )
   names(organism_read_counts) = gsub('.organism.bam', '', names(organism_read_counts))
   print('Finished counting bam files')
@@ -1077,13 +1077,13 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
   df_chrom_ranges = data.frame(chrom = df_chrom_sizes$V1, start = 1, end = df_chrom_sizes$V2)
   total_genome_size = sum(df_chrom_ranges$end)
 
-  chrom_ranges = makeGRangesFromDataFrame(df_chrom_ranges,
+  chrom_ranges = GenomicRanges::makeGRangesFromDataFrame(df_chrom_ranges,
                                           keep.extra.columns=FALSE,
                                           ignore.strand=T,
                                           seqinfo=NULL,
                                           starts.in.df.are.0based=FALSE)
 
-  sbp <- ScanBamParam(which=chrom_ranges )
+  sbp <- Rsamtools::ScanBamParam(which=chrom_ranges )
 
   p_param <- PileupParam(distinguish_nucleotides=FALSE,distinguish_strands=FALSE,
                          min_base_quality=10, min_nucleotide_depth=1)
@@ -1101,31 +1101,31 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
   if(parallel)
   {
     print('Running coverage in parallel')
-    cl <- makeCluster(num_cores, outfile=log_file, type = 'SOCK')
-    #clusterExport(cl, varlist = ls(), envir = environment())
-    #clusterExport(cl, list = ls(), envir = environment())
-    #clusterExport(cl, ls(.GlobalEnv))
+    cl <- parallel::makeCluster(num_cores, outfile=log_file, type = 'SOCK')
+    #parallel::clusterExport(cl, varlist = ls(), envir = environment())
+    #parallel::clusterExport(cl, list = ls(), envir = environment())
+    #parallel::clusterExport(cl, ls(.GlobalEnv))
 
-    registerDoSNOW(cl)
-    #clusterExport(cl, varlist = ls(), envir = environment())
-    clusterExport(cl, ls(.GlobalEnv))
+    doSNOW::registerDoSNOW(cl)
+    #parallel::clusterExport(cl, varlist = ls(), envir = environment())
+    parallel::clusterExport(cl, ls(.GlobalEnv))
 
     print('Starting')
 
-    #base_counts = foreach(i=1:10, .export= ls(globalenv()) ) %dopar%
-    base_counts = foreach(i=1:length(bam_files), .export= ls(globalenv()) ) %dopar%
+    #base_counts = foreach::foreach(i=1:10, .export= ls(globalenv()) ) %dopar%
+    base_counts = foreach::foreach(i=1:length(bam_files), .export= ls(globalenv()) ) %dopar%
       {
 
         bam_file = bam_files[i]
         print(paste(i, 'Computing coverage rate for', bam_file))
-        #res <- pileup(bam_file, scanBamParam=sbp, pileupParam=p_param)
+        #res <- Rsamtools::pileup(bam_file, ScanBamParam=sbp, pileupParam=p_param)
 
-        library(Rsamtools)
+        # library(Rsamtools)
 
         #res = NA
 
         res = tryCatch({
-          pileup(bam_file, scanBamParam=sbp, pileupParam=p_param)
+          Rsamtools::pileup(bam_file, ScanBamParam=sbp, pileupParam=p_param)
         }, warning = function(w) {
 
         }, error = function(e) {
@@ -1148,7 +1148,7 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
 
         print(base_count)
         base_count
-      }#foreach
+      }#foreach::foreach
 
   }else{
 
@@ -1156,16 +1156,16 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
 
     for(i in 1:length(bam_files) )
     {
-      library(Rsamtools)
+      # library(Rsamtools)
 
       bam_file = bam_files[i]
       print(paste(i, 'Computing coverage rate for', bam_file))
-      #res <- pileup(bam_file, scanBamParam=sbp, pileupParam=p_param)
+      #res <- Rsamtools::pileup(bam_file, ScanBamParam=sbp, pileupParam=p_param)
 
       #res = NA
 
       res = tryCatch({
-        pileup(bam_file, scanBamParam=sbp, pileupParam=p_param)
+        Rsamtools::pileup(bam_file, ScanBamParam=sbp, pileupParam=p_param)
       }, warning = function(w) {
 
       }, error = function(e) {
@@ -1208,7 +1208,7 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
   # for(bam_file in bam_files)
   # {
   #   print(bam_file)
-  #   res <- pileup(bam_file, scanBamParam=sbp, pileupParam=p_param)
+  #   res <- Rsamtools::pileup(bam_file, ScanBamParam=sbp, pileupParam=p_param)
   #   class(res)
   #   dim(res)
   #   head(res)
@@ -1268,13 +1268,13 @@ merge_r1_and_r2_bam_for_sample <- function(alignment_dir_in,  alignment_dir_out,
 
   if(num_cores > 1)
   {
-    cl <- makeCluster(num_cores, outfile="", type = 'SOCK')
-    clusterExport(cl, ls(.GlobalEnv))
-    registerDoSNOW(cl)
-    clusterExport(cl, ls(.GlobalEnv))
+    cl <- parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+    parallel::clusterExport(cl, ls(.GlobalEnv))
+    doSNOW::registerDoSNOW(cl)
+    parallel::clusterExport(cl, ls(.GlobalEnv))
 
 
-    foreach(i=1:length(r1_bam_files)) %dopar%
+    foreach::foreach(i=1:length(r1_bam_files)) %dopar%
       {
         r1_bam = r1_bam_files[i]
         r2_bam = paste0(alignment_dir_in,  gsub('R1', 'R2', r1_bam) )
@@ -1283,9 +1283,9 @@ merge_r1_and_r2_bam_for_sample <- function(alignment_dir_in,  alignment_dir_out,
         msg = paste('Merging', r1_bam, 'and', r2_bam)
         print(msg)
         merge_r1_and_r2_bam_for_cell(r1_bam, r2_bam, merged_bam)
-      }#foreach
+      }#foreach::foreach
 
-    stopCluster(cl)
+    parallel::stopCluster(cl)
 
   }else
   {

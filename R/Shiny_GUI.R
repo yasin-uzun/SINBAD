@@ -1,4 +1,4 @@
-library(shiny)
+# library(shiny)
 
 # object is initially NULL
 sinbad_object <- NULL

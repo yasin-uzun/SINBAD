@@ -1,5 +1,5 @@
-library(doSNOW)
-library(scales)
+# library(doSNOW)
+# library(scales)
 
 test <- function()
 {
@@ -929,7 +929,7 @@ generate_Seurat_object <- function(sinbad_object,
   feature_mat = sinbad_object$met_matrices[[feature_annot_type]]
   met_mat_for_features = feature_mat
 
-  library(Seurat)
+  # library(Seurat)
 
   if(feature_annot_type == 'Promoters')
   {
@@ -947,18 +947,18 @@ generate_Seurat_object <- function(sinbad_object,
 
   seurat_object = CreateSeuratObject(met_mat_for_dim_red, assay = dim_red_annot_type)
 
-  seurat_object <- NormalizeData(seurat_object, normalization.method = "LogNormalize", scale.factor = 10000)
-  seurat_object <- FindVariableFeatures(seurat_object, selection.method = "vst", nfeatures = vmr_count)
+  seurat_object <- Seurat::NormalizeData(seurat_object, normalization.method = "LogNormalize", scale.factor = 10000)
+  seurat_object <- Seurat::FindVariableFeatures(seurat_object, selection.method = "vst", nfeatures = vmr_count)
   all.genes <- rownames(seurat_object)
-  seurat_object <- ScaleData(seurat_object, features = all.genes)
-  seurat_object <- RunPCA(seurat_object, features = VariableFeatures(object = seurat_object), npcs = 10)
+  seurat_object <- Seurat::ScaleData(seurat_object, features = all.genes)
+  seurat_object <- Seurat::RunPCA(seurat_object, features = VariableFeatures(object = seurat_object), npcs = 10)
 
-  DimPlot(seurat_object, reduction = "pca")
+  Seurat::DimPlot(seurat_object, reduction = "pca")
 
-  seurat_object <- FindNeighbors(seurat_object, dims = 1:10)
-  seurat_object <- FindClusters(seurat_object, resolution = 0.1)
+  seurat_object <- Seurat::FindNeighbors(seurat_object, dims = 1:10)
+  seurat_object <- Seurat::FindClusters(seurat_object, resolution = 0.1)
 
-  seurat_object <- RunUMAP(seurat_object, dims = 1:10, min.dist = 0.01)
+  seurat_object <- Seurat::RunUMAP(seurat_object, dims = 1:10, min.dist = 0.01)
 
   head(seurat_object@reductions$umap@cell.embeddings)
   head(dim_red_object$umap)
@@ -968,12 +968,12 @@ generate_Seurat_object <- function(sinbad_object,
   seurat_object@meta.data$sinbad_clusters = dim_red_object$clusters
 
 
-  #gg1 = DimPlot(seurat_object, reduction = "umap", label = T)
+  #gg1 = Seurat::DimPlot(seurat_object, reduction = "umap", label = T)
   #print(gg1)
 
 
 
-  gg1 = DimPlot(seurat_object, reduction = "umap", label = T, group.by = 'sinbad_clusters')
+  gg1 = Seurat::DimPlot(seurat_object, reduction = "umap", label = T, group.by = 'sinbad_clusters')
   print(gg1)
 
 
@@ -986,7 +986,7 @@ generate_Seurat_object <- function(sinbad_object,
   ggsave(gg1, filename = plot_file, device = 'png', width = 20, height = 20, units = 'cm')
 
 
-  feature_assay = CreateAssayObject(met_mat_for_features)
+  feature_assay = SeuratObject::CreateAssayObject(met_mat_for_features)
 
   feature_annot_type = gsub('-', 'u', feature_annot_type)
   feature_annot_type = gsub('\\+', 'd', feature_annot_type)
@@ -995,11 +995,11 @@ generate_Seurat_object <- function(sinbad_object,
 
 
 
-  seurat_object <- NormalizeData(seurat_object, normalization.method = "LogNormalize", scale.factor = 10000, assay = feature_annot_type)
-  seurat_object <- ScaleData(seurat_object, assay = feature_annot_type)
+  seurat_object <- Seurat::NormalizeData(seurat_object, normalization.method = "LogNormalize", scale.factor = 10000, assay = feature_annot_type)
+  seurat_object <- Seurat::ScaleData(seurat_object, assay = feature_annot_type)
 
-  DefaultAssay(seurat_object) = feature_annot_type
-  #FeaturePlot(seurat_object, features = 'GNB1')
+  SeuratObject::DefaultAssay(seurat_object) = feature_annot_type
+  #Seurat::FeaturePlot(seurat_object, features = 'GNB1')
 
 
   feature_plot_dir = paste0(sinbad_object$plot_dir, '/Seurat/gene_expression.dim_red_annot_type.',dim_red_annot_type,
@@ -1023,7 +1023,7 @@ generate_Seurat_object <- function(sinbad_object,
       #print(feature)
       #cairo_ps(plot_file, fallback_resolution = 2400)
       #postscript(plot_file, onefile = F, width = 7, height = 6)
-      gg1 = FeaturePlot(seurat_object, features = feature)
+      gg1 = Seurat::FeaturePlot(seurat_object, features = feature)
       print(gg1)
       plot_file = paste0(feature_plot_dir, '/eps/', feature, '.eps')
       ggsave(gg1, filename = plot_file, device = 'eps', width = 20, height = 20, units = 'cm')
@@ -1084,7 +1084,7 @@ add_feature_to_Seurat_object <- function(seurat_object, sinbad_object,
   met_mat_for_features = impute_nas(met_mat_for_features)
 
 
-  feature_assay = CreateAssayObject(met_mat_for_features)
+  feature_assay = SeuratObject::CreateAssayObject(met_mat_for_features)
 
   feature_annot_type = gsub('-', 'u', feature_annot_type)
   feature_annot_type = gsub('\\+', 'd', feature_annot_type)
@@ -1093,12 +1093,12 @@ add_feature_to_Seurat_object <- function(seurat_object, sinbad_object,
 
 
 
-  seurat_object <- NormalizeData(seurat_object, normalization.method = "LogNormalize", scale.factor = 10000,
+  seurat_object <- Seurat::NormalizeData(seurat_object, normalization.method = "LogNormalize", scale.factor = 10000,
                                  assay = feature_annot_type)
-  seurat_object <- ScaleData(seurat_object, assay = feature_annot_type)
+  seurat_object <- Seurat::ScaleData(seurat_object, assay = feature_annot_type)
 
-  DefaultAssay(seurat_object) = feature_annot_type
-  #FeaturePlot(seurat_object, features = 'GNB1')
+  SeuratObject::DefaultAssay(seurat_object) = feature_annot_type
+  #Seurat::FeaturePlot(seurat_object, features = 'GNB1')
 
 
   feature_plot_dir = paste0(sinbad_object$plot_dir, '/Seurat/gene_expression.dim_red_annot_type.',dim_red_annot_type,
@@ -1122,7 +1122,7 @@ add_feature_to_Seurat_object <- function(seurat_object, sinbad_object,
       #print(feature)
       #cairo_ps(plot_file, fallback_resolution = 2400)
       #postscript(plot_file, onefile = F, width = 7, height = 6)
-      gg1 = FeaturePlot(seurat_object, features = feature)
+      gg1 = Seurat::FeaturePlot(seurat_object, features = feature)
       print(gg1)
       plot_file = paste0(feature_plot_dir, '/eps/', feature, '.eps')
       ggsave(gg1, filename = plot_file, device = 'eps', width = 20, height = 20, units = 'cm')

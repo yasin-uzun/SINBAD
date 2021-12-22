@@ -37,13 +37,13 @@ params:
 
 
 ```{r setup, include=FALSE}
-library(flexdashboard)
-library(data.table)
-library(magrittr)
-library(kableExtra)
-library(RColorBrewer)
-library(ggplot2)
-library(viridis)
+# library(flexdashboard)
+# library(data.table)
+# library(magrittr)
+# library(kableExtra)
+# library(RColorBrewer)
+# library(ggplot2)
+# library(viridis)
 
 ```
 
@@ -175,8 +175,8 @@ Row
 
 bc_stat[, 'group' := ifelse(bc %in% barcodes, 'cell', 'non-cell')]
 
-library(ggplot2)
-library(grid)
+# library(ggplot2)
+# library(grid)
 nsub_frags = min(15000, nrow(bc_stat))
 g <- ggplot(data = bc_stat[sample(1:nrow(bc_stat), nsub_frags), ], 
             aes(x = total_frags, y = frac_peak, col = group)) + 
@@ -367,14 +367,14 @@ Column
 ### Clustering 
 ```{r}
 rm(frags)
-library(Seurat)
+# library(Seurat)
 
 down.dir = paste0(params$output_dir, '/downstream_analysis/', PEAK_CALLER, '/', CELL_CALLER)
 seurat_file = paste0(down.dir, '/seurat_obj.rds')
 if(file.exists(seurat_file)){
     ss = readRDS(seurat_file)
 
-    cg <- DimPlot(ss, reduction = 'umap', group.by = 'active_clusters', label = T) + scale_color_brewer(palette = "Paired") + theme(legend.text = element_text(size = 18, family = "Helvetica"))
+    cg <- Seurat::DimPlot(ss, reduction = 'umap', group.by = 'active_clusters', label = T) + scale_color_brewer(palette = "Paired") + theme(legend.text = element_text(size = 18, family = "Helvetica"))
     
     
     
@@ -397,7 +397,7 @@ go_file = paste0(down.dir, '/enrichedGO_differential_peak_cluster_', group1,
 #go_file = paste0(down.dir, '/enrichedGO_differential_peak_cluster_', group1, 
 #                  '_VS_cluster_', group2, '.txt.csv')
 if(file.exists(go_file)){
-   #library(xlsx)
+   # library(xlsx)
     go_res1 = xlsx::read.xlsx(go_file, sheetName = paste0('cluster', group1))
     go_res2 = xlsx::read.xlsx(go_file, sheetName = paste0('cluster', group2))
     go_res = go_res1
@@ -444,8 +444,8 @@ Column
 
 ```{r, fig.height=9, out.width='\\textwidth'}
 ## check enriched TFs for each cluster
-library(chromVAR)
-library(BiocParallel)
+# library(chromVAR)
+# library(BiocParallel)
 register(SerialParam())
 
 # Do DA/DE with one cluster vs the rest clusters
@@ -583,9 +583,9 @@ Column
 comp_cls = paste0('cluster_', group1_fp, '_cluster_', group2_fp)
 footprint_stats.file = paste0(down.dir, '/data_by_cluster/footprint/', comp_cls, '/differential_statistics.txt')
 if(file.exists(footprint_stats.file)){
-  library(ggrepel)
-  library(gridExtra)
-#  library(grid)
+  # library(ggrepel)
+  # library(gridExtra)
+#  # library(grid)
   footprint_stats = fread(footprint_stats.file)
 
   footprint_stats[, 'motif1' := unlist(strsplit(Motif, '.', fixed = T))[3], by = Motif]

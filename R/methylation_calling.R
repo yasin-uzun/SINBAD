@@ -1,6 +1,6 @@
-library(doSNOW)
-library(readr)
-library(scales)
+# library(doSNOW)
+# library(readr)
+# library(scales)
 
 call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_dir, log_dir, bme_param_settings)
 {
@@ -11,9 +11,9 @@ call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_d
 
   if(num_cores > 1)
   {
-    cl <- makeCluster(num_cores, outfile="", type = 'SOCK')
-    registerDoSNOW(cl)
-    foreach(i=1:length(bam_files), .export= ls(globalenv())       ) %dopar%
+    cl <- parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+    doSNOW::registerDoSNOW(cl)
+    foreach::foreach(i=1:length(bam_files), .export= ls(globalenv())       ) %dopar%
       {
         bam_file = bam_files[i]
         cell_id = gsub('.organism.bam', '', bam_file)
@@ -24,7 +24,7 @@ call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_d
                                         bme_param_settings = bme_param_settings,
                                         log_dir = log_dir)
 
-      }#foreach
+      }#foreach::foreach
   }else#if(num_cores > 1)
   {
     for(i in 1:length(bam_files))
@@ -38,7 +38,7 @@ call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_d
                                       bme_param_settings = bme_param_settings,
                                       log_dir = log_dir)
 
-    }#foreach
+    }#foreach::foreach
 
   }#else
 
@@ -271,13 +271,13 @@ get_met_call_counts <- function(methylation_calls_dir, met_type = 'CpG')
   print(methylation_calls_dir)
   print('***************************************')
 
-  #cl <- makeCluster(num_cores, type = 'SOCK')
-  #clusterExport(cl, ls(.GlobalEnv))
-  #registerDoSNOW(cl)
-  #clusterExport(cl, ls(.GlobalEnv))
+  #cl <-parallel::makeCluster(num_cores, type = 'SOCK')
+  #parallel::clusterExport(cl, ls(.GlobalEnv))
+  #doSNOW::registerDoSNOW(cl)
+  #parallel::clusterExport(cl, ls(.GlobalEnv))
 
 
-  #met_call_counts = foreach(i=1:length(cov_files), .export= ls(globalenv()) ) %dopar%
+  #met_call_counts = foreach::foreach(i=1:length(cov_files), .export= ls(globalenv()) ) %dopar%
   for(cov_file in cov_files)
   {
     counter = counter + 1
@@ -366,11 +366,11 @@ plot_split_reports <- function(sample_name = '', df_org_split_reports, df_lambda
   {
     if(is.character(df_org_split_reports[,i]) )
     {
-      df_org_split_reports[,i] = parse_number(df_org_split_reports[,i])
+      df_org_split_reports[,i] = readr::parse_number(df_org_split_reports[,i])
     }
     if(is.character(df_lambda_split_reports[,i]) & lambda_flag )
     {
-      df_lambda_split_reports[,i] = parse_number(df_lambda_split_reports[,i])
+      df_lambda_split_reports[,i] = readr::parse_number(df_lambda_split_reports[,i])
     }
   }
 

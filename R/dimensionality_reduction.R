@@ -1,9 +1,9 @@
-library(umap)
-library(colorspace)
-library(RColorBrewer)
-library(scales)
-library(ggplot2)
-library(viridis)
+# library(umap)
+# library(colorspace)
+# library(RColorBrewer)
+# library(scales)
+# library(ggplot2)
+# library(viridis)
 
 
 
@@ -299,12 +299,12 @@ plot_features <- function(umap, feature_matrix, features,  name_for_dim_red, nam
       ggsave(gg1, filename = plot_file, device = 'png', width = 20, height = 20, units = 'cm')
       #dev.off()
 
-      #library(reshape)
+      # library(reshape)
       if(length(clusters) > 0)
       {
         print("*******************")
         clus_count = length(unique(clusters))
-        color_map = hue_pal()(clus_count)
+        color_map = scales::hue_pal()(clus_count)
         color_vals = color_map[clusters]
         temp = data.frame(cluster = factor(clusters), Met.Rate =  feature_matrix[feature, ])
         head(temp)

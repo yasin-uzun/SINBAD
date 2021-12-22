@@ -1,8 +1,8 @@
-library(parallel)
+# library(parallel)
 
 intersect_bed <- function(a, b){
-  library(GenomicRanges)
-  my_hit <- findOverlaps(a, b)
+  # library(GenomicRanges)
+  my_hit <- GenomicAlignments::findOverlaps(a, b)
   class(my_hit)
 
   da = as.data.frame(a[queryHits(my_hit)])
