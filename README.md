@@ -137,7 +137,7 @@ data](https://chopri.box.com/s/7cu5cc655sq267o3pvdh29ar20n89nnw)
 If you use SINBAD in your study, please cite it as follows:
 
 SINBAD: A pipeline for processing SINgle cell Bisulfite sequencing
-samples and Analysis of Data , GitHub, 2021.
+samples and Analysis of Data, GitHub, 2021.
 
 ## Contact
 
