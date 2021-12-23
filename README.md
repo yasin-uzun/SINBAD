@@ -83,10 +83,10 @@ Detailed instructions for using SINBAD are available in the [SINBAD User Manual]
 
 To run SINBAD, you need three configuration files to modify:
 
--   `config.general.R` : Sets the progam paths to be used by MethylPipe.
+-   `config.general.R` : Sets the progam paths to be used by SINBAD.
     You need to edit this file only once.
 -   `config.genome.R` : Sets the genomic information and paths to be
-    used by MethylPipe. You need to generate one for each organism. We
+    used by SINBAD. You need to generate one for each organism. We
     provide the built-in configuration by hg38.
 -   `config.project.R` : You need to configure this file for your
     project.
