@@ -69,7 +69,7 @@ hg38 assembly in
 
 ## Graphical User Interface
 
-SINBAD can be run using simple R instructions. It also has an easy to use Graphical User Interface (GUI). The users with no R programming background can use the GUI to process analyze their single cell DNA methylation sequencing datasets. Please see the user manual (below) on how to use SINBAD via GUI.
+SINBAD can be run using simple R instructions. It also has an easy to use Graphical User Interface (GUI). The users with no R programming background can use the GUI to process and analyze their single cell DNA methylation sequencing datasets. Please see the user manual (below) on how to use SINBAD via GUI.
 
 <p align="center">
 <img src="docs/SINBAD_alignment.png" width="800" title="">
