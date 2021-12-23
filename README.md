@@ -58,10 +58,9 @@ don’t need BSMAP or BS3 if you will only use Bismark as the aligner.
 You can install these tools by yourself. For convenience, we provide the
 binaries in
 [here](https://chopri.box.com/s/l8o4v6ko8aeabo3fsdtfan8gxjxzg39h) .
-Please cite the specific tool when you use it, in adition to MethylPipe.
+Please cite the specific tool when you use it, in addition to SINBAD.
 
-You can download demultiplex\_fastq.pl script from
-[here](https://chopri.box.com/s/vplpxht3r7u6i0fcnio803wlnezuc5o3).
+You can download the perl scripts from our [repository](perl/). 
 
 You also need genomic sequence and annotated genomic regions for
 quantification of methylation calls. We provide the sequence data for
@@ -70,13 +69,16 @@ hg38 assembly in
 
 ## Graphical User Interface
 
-SINBAD has an easy to use Graphical User Interface (GUI). Detailed
-instructions for the GUI are available in the [SINBAD User
-Manual](docs/SINBAD_User_Manual.pdf).
+SINBAD has an easy to use Graphical User Interface (GUI). 
 
 <p align="center">
 <img src="docs/SINBAD_alignment.png" width="800" title="">
 </p>
+
+## User Manual
+
+Detailed instructions for using SINBAD are available in the [SINBAD User
+Manual](docs/SINBAD_User_Manual.pdf).
 
 ## Configuration
 
