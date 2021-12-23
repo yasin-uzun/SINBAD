@@ -50,7 +50,7 @@ To run SINBAD, you need to have the underlying software:
 -   Adapter Trimmer: Cutadapt or TrimGalor or Trimmomatic
 -   Aligner: Bismark (with Bowtie) or BSMAP or BS3
 -   Duplicate removal: samtools
--   Demultiplexer: demultiplex\_fastq.pl perl script (see below).
+-   Perl dependencies: get\_r2\_indeces\_from_r1.pl demultiplex\_fastq.pl perl script (see below).
 
 Note that you only need the tools you will use to be installed, i.e, you
 don’t need BSMAP or BS3 if you will only use Bismark as the aligner.
@@ -69,7 +69,7 @@ hg38 assembly in
 
 ## Graphical User Interface
 
-SINBAD has an easy to use Graphical User Interface (GUI). 
+SINBAD can be run using simple R instructions. It also has an easy to use Graphical User Interface (GUI). The users with no R programming background can use the GUI to process analyze their single cell DNA methylation sequencing datasets. Please see the user manual (below) on how to use SINBAD via GUI.
 
 <p align="center">
 <img src="docs/SINBAD_alignment.png" width="800" title="">
@@ -77,8 +77,7 @@ SINBAD has an easy to use Graphical User Interface (GUI).
 
 ## User Manual
 
-Detailed instructions for using SINBAD are available in the [SINBAD User
-Manual](docs/SINBAD_User_Manual.pdf).
+Detailed instructions for using SINBAD are available in the [SINBAD User Manual](docs/SINBAD_User_Manual.pdf). You can find the information about seeting the parameters and executing the analysis steps in the manual.
 
 ## Configuration
 
