@@ -87,7 +87,7 @@ To run SINBAD, you need three configuration files to modify:
     You need to edit this file only once.
 -   `config.genome.R` : Sets the genomic information and paths to be
     used by SINBAD. You need to generate one for each organism. We
-    provide the built-in configuration by hg38.
+    provide the built-in configuration for hg38 assembly.
 -   `config.project.R` : You need to configure this file for your
     project.
 
