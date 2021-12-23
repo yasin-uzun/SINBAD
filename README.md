@@ -91,8 +91,8 @@ To run SINBAD, you need three configuration files to modify:
 -   `config.project.R` : You need to configure this file for your
     project.
 
-You can download the templates for the configuration files from
-[here](https://chopri.box.com/s/rkqnwx4ck7larpthluyxse4hi8quypk0) and
+You can download the templates for the configuration files from the [repository]
+(config_files) and
 edit them for your purposes.
 
 ## Running
