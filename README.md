@@ -107,7 +107,7 @@ read_configs(config_dir)
 `config_dir` should point to your configuration file directory
 (mentioned above).
 
-1.  Process data:
+2.  Process data:
 
 ``` r
 process_sample_wrapper(raw_fastq_dir, demux_index_file, working_dir, sample_name)
