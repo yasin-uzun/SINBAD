@@ -129,8 +129,7 @@ into related directories in `working_dir`.
 
 ## Example Data
 
-For testing SINBAD, we provide [example single ended and pair ended example datasets (fastq)
-data](https://chopri.box.com/s/bzb3fb4dykenl99rethdxiqy6389wvat) generated using snmC-Seq 
+For testing SINBAD, we provide [example single ended and pair ended example datasets (fastq)](https://chopri.box.com/s/bzb3fb4dykenl99rethdxiqy6389wvat) generated with snmC-Seq protocol.
 
 ## Citation
 
