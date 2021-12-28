@@ -13,7 +13,7 @@ datasets.
 <img src="docs/SINBAD_Framework.png" width="600" title="">
 </p>
 
-NOTE: SINBAD is tested on paired snmC-Seq data.
+NOTE: SINBAD is tested with paired snmC-Seq data.
 
 ## System requirements
 
