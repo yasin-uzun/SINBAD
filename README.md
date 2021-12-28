@@ -50,7 +50,7 @@ To run SINBAD, you need to have the underlying software:
 -   Adapter Trimmer: Cutadapt or TrimGalor or Trimmomatic
 -   Aligner: Bismark (with Bowtie) or BSMAP or BS3
 -   Duplicate removal: samtools
--   Perl dependencies: get\_r2\_indeces\_from_r1.pl demultiplex\_fastq.pl perl script (see below).
+-   Perl dependencies: SINBAD uses two perl scripts for demultiplexing (see below).
 
 Note that you only need the tools you will use to be installed, i.e, you
 don’t need BSMAP or BS3 if you will only use Bismark as the aligner.
