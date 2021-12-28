@@ -27,7 +27,7 @@ To install SINBAD, type the following command in R command prompt:
 devtools::install_github("yasin-uzun/SINBAD")
 ```
 
-Once you have installed the SINBAD, verify that it is installed
+Once you have installed the SINBAD, you can verify that it is installed
 correctly as follows:
 
 ``` r
@@ -57,15 +57,15 @@ don’t need BSMAP or BS3 if you will only use Bismark as the aligner.
 
 You can install these tools by yourself. For convenience, we provide the
 binaries in
-[here](https://chopri.box.com/s/l8o4v6ko8aeabo3fsdtfan8gxjxzg39h) .
+[here](https://chopri.box.com/s/vplpxht3r7u6i0fcnio803wlnezuc5o3) .
 Please cite the specific tool when you use it, in addition to SINBAD.
 
 You can download the perl scripts from our [repository](perl/). 
 
 You also need genomic sequence and annotated genomic regions for
 quantification of methylation calls. We provide the sequence data for
-hg38 assembly in
-[here](https://chopri.box.com/s/rf6fk2gumtbe3au83msxniwnkzkukvr5).
+hg38 and mm10 assemblies in
+[here](https://chopri.box.com/s/ajbbqsu3vqumygqu8uzqex5m7afpniwr).
 
 ## Graphical User Interface
 
