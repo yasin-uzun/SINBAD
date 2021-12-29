@@ -114,13 +114,12 @@ compute_call_count_matrices <- function(  df_region,
 
   result_list = list()
 
-  cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
-  doSNOW::registerDoSNOW(cl)
+  # cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+  # doSNOW::registerDoSNOW(cl)
 
   #for(i in  1:length(cov_files))
   #result_list <- foreach::foreach(i=1:length(cov_files)) %dopar%
-  met_hits_list <- foreach::foreach(i=1:length(cov_files)) %dopar%
-  {
+  met_hits_list <- foreach::`%dopar%`(foreach::foreach(i=1:length(cov_files)), {
     # library(data.table)
     # library(GenomicRanges)
 
@@ -197,9 +196,9 @@ compute_call_count_matrices <- function(  df_region,
     rownames(df_aggr_x) = df_aggr_x$region_name
 
     df_aggr_x
-  }
+  })
 
-  parallel::stopCluster(cl)  #not reached
+  # parallel::stopCluster(cl)  #not reached
 
   temp = met_hits_list
   cell_ids = cov_files

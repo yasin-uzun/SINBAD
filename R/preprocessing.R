@@ -175,9 +175,9 @@ trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
 
   if(num_cores > 1)
   {
-    cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
-    doSNOW::registerDoSNOW(cl)
-    parallel::clusterExport(cl, ls(), envir = environment())
+    # cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+    # doSNOW::registerDoSNOW(cl)
+    # parallel::clusterExport(cl, ls(), envir = environment())
 
 
     if(sequencing_type  == 'paired')

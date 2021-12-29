@@ -11,10 +11,9 @@ call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_d
 
   if(num_cores > 1)
   {
-    cl <- parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
-    doSNOW::registerDoSNOW(cl)
-    foreach::foreach(i=1:length(bam_files), .export= ls(globalenv())       ) %dopar%
-      {
+    # cl <- parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+    # doSNOW::registerDoSNOW(cl)
+    foreach::`%dopar%`(foreach::foreach(i=1:length(bam_files), .export= ls(globalenv())), {
         bam_file = bam_files[i]
         cell_id = gsub('.organism.bam', '', bam_file)
 
@@ -24,7 +23,7 @@ call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_d
                                         bme_param_settings = bme_param_settings,
                                         log_dir = log_dir)
 
-      }#foreach::foreach
+      })#foreach::foreach
   }else#if(num_cores > 1)
   {
     for(i in 1:length(bam_files))

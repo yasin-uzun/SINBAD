@@ -34,14 +34,13 @@ align_sample <- function(read_dir,
 
   if(num_cores > 1)
   {
-    cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+    # cl <-parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
 
-    parallel::clusterExport(cl, ls(.GlobalEnv))
-    doSNOW::registerDoSNOW(cl)
-    parallel::clusterExport(cl, ls(.GlobalEnv))
+    # parallel::clusterExport(cl, ls(.GlobalEnv))
+    # doSNOW::registerDoSNOW(cl)
+    # parallel::clusterExport(cl, ls(.GlobalEnv))
 
-    foreach::foreach(i=1:length(fastq_files)) %dopar%
-      {
+    foreach::`%dopar%`(foreach::foreach(i=1:length(fastq_files)), {
         fastq_file = fastq_files[i]
         print( fastq_file)
         bam_file = paste0(alignment_dir, fastq_file)
@@ -59,7 +58,7 @@ align_sample <- function(read_dir,
                      aligner_param_settings = aligner_param_settings)
         }
 
-      }#foreach::foreach
+      }) #foreach::foreach
   }else#if(num_cores > 1)
   {
     for(i in 1:length(fastq_files))
@@ -1101,20 +1100,18 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
   if(parallel)
   {
     print('Running coverage in parallel')
-    cl <- parallel::makeCluster(num_cores, outfile=log_file, type = 'SOCK')
+    # cl <- parallel::makeCluster(num_cores, outfile=log_file, type = 'SOCK')
     #parallel::clusterExport(cl, varlist = ls(), envir = environment())
     #parallel::clusterExport(cl, list = ls(), envir = environment())
     #parallel::clusterExport(cl, ls(.GlobalEnv))
 
-    doSNOW::registerDoSNOW(cl)
+    # doSNOW::registerDoSNOW(cl)
     #parallel::clusterExport(cl, varlist = ls(), envir = environment())
-    parallel::clusterExport(cl, ls(.GlobalEnv))
+    # parallel::clusterExport(cl, ls(.GlobalEnv))
 
     print('Starting')
 
-    #base_counts = foreach::foreach(i=1:10, .export= ls(globalenv()) ) %dopar%
-    base_counts = foreach::foreach(i=1:length(bam_files), .export= ls(globalenv()) ) %dopar%
-      {
+    base_counts = foreach::`%dopar%`(foreach::foreach(i=1:length(bam_files), .export= ls(globalenv())), {
 
         bam_file = bam_files[i]
         print(paste(i, 'Computing coverage rate for', bam_file))
@@ -1148,7 +1145,7 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
 
         print(base_count)
         base_count
-      }#foreach::foreach
+      })#foreach::foreach
 
   }else{
 
@@ -1192,10 +1189,6 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
     }#for
 
   }#else
-
-
-
-
 
   cell_ids = bam_files
   cell_ids = sub('.organism.sorted.bam', '', cell_ids)
@@ -1268,14 +1261,12 @@ merge_r1_and_r2_bam_for_sample <- function(alignment_dir_in,  alignment_dir_out,
 
   if(num_cores > 1)
   {
-    cl <- parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
-    parallel::clusterExport(cl, ls(.GlobalEnv))
-    doSNOW::registerDoSNOW(cl)
-    parallel::clusterExport(cl, ls(.GlobalEnv))
+    # cl <- parallel::makeCluster(num_cores, outfile="", type = 'SOCK')
+    # parallel::clusterExport(cl, ls(.GlobalEnv))
+    # doSNOW::registerDoSNOW(cl)
+    # parallel::clusterExport(cl, ls(.GlobalEnv))
 
-
-    foreach::foreach(i=1:length(r1_bam_files)) %dopar%
-      {
+    foreach::`%dopar%`(foreach::foreach(i=1:length(r1_bam_files)), {
         r1_bam = r1_bam_files[i]
         r2_bam = paste0(alignment_dir_in,  gsub('R1', 'R2', r1_bam) )
         merged_bam = paste0(alignment_dir_out,  gsub('_R1', '', r1_bam) )
@@ -1283,9 +1274,9 @@ merge_r1_and_r2_bam_for_sample <- function(alignment_dir_in,  alignment_dir_out,
         msg = paste('Merging', r1_bam, 'and', r2_bam)
         print(msg)
         merge_r1_and_r2_bam_for_cell(r1_bam, r2_bam, merged_bam)
-      }#foreach::foreach
+    })#foreach::foreach
 
-    parallel::stopCluster(cl)
+    # parallel::stopCluster(cl)
 
   }else
   {
