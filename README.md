@@ -47,13 +47,10 @@ following message:
 
 To run SINBAD, you need to have the underlying software:
 
--   Adapter Trimmer: Cutadapt or TrimGalor or Trimmomatic
--   Aligner: Bismark (with Bowtie) or BSMAP or BS3
--   Duplicate removal: samtools
+-   Adapter Trimmer: [Cutadapt](https://cutadapt.readthedocs.io/en/stable/installation.html) 
+-   Aligner: [Bismark (with Bowtie)](https://www.bioinformatics.babraham.ac.uk/projects/bismark/)
+-   Duplicate removal: [samtools](http://www.htslib.org/download/)
 -   Perl dependencies: SINBAD uses two perl scripts for demultiplexing (see below).
-
-Note that you only need the tools you will use to be installed, i.e, you
-don’t need BSMAP or BS3 if you will only use Bismark as the aligner.
 
 You can install these tools by yourself. For convenience, we provide the
 binaries in
