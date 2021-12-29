@@ -45,7 +45,7 @@ following message:
 
 ## Dependencies
 
-To run SINBAD, you need to have the underlying software:
+SINBAD has following software dependencies:
 
 -   Adapter Trimmer: [Cutadapt](https://cutadapt.readthedocs.io/en/stable/installation.html) 
 -   Aligner: [Bismark](https://www.bioinformatics.babraham.ac.uk/projects/bismark/)
