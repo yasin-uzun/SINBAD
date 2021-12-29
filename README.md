@@ -48,7 +48,7 @@ following message:
 To run SINBAD, you need to have the underlying software:
 
 -   Adapter Trimmer: [Cutadapt](https://cutadapt.readthedocs.io/en/stable/installation.html) 
--   Aligner: [Bismark (with Bowtie)](https://www.bioinformatics.babraham.ac.uk/projects/bismark/)
+-   Aligner: [Bismark](https://www.bioinformatics.babraham.ac.uk/projects/bismark/)
 -   Duplicate removal: [samtools](http://www.htslib.org/download/)
 -   Perl dependencies: SINBAD uses two perl scripts for demultiplexing (see below).
 
