@@ -13,7 +13,7 @@ datasets.
 <img src="docs/SINBAD_Framework.png" width="600" title="">
 </p>
 
-NOTE: SINBAD is tested on paired snmC-Seq data.
+NOTE: SINBAD is tested with paired snmC-Seq data.
 
 ## System requirements
 
@@ -27,7 +27,7 @@ To install SINBAD, type the following command in R command prompt:
 devtools::install_github("yasin-uzun/SINBAD")
 ```
 
-Once you have installed the SINBAD, verify that it is installed
+Once you have installed the SINBAD, you can verify that it is installed
 correctly as follows:
 
 ``` r
@@ -45,53 +45,50 @@ following message:
 
 ## Dependencies
 
-To run SINBAD, you need to have the underlying software:
+SINBAD has following software dependencies:
 
--   Adapter Trimmer: Cutadapt or TrimGalor or Trimmomatic
--   Aligner: Bismark (with Bowtie) or BSMAP or BS3
--   Duplicate removal: samtools
--   Demultiplexer: demultiplex\_fastq.pl perl script (see below).
-
-Note that you only need the tools you will use to be installed, i.e, you
-don’t need BSMAP or BS3 if you will only use Bismark as the aligner.
+-   Adapter Trimmer: [Cutadapt](https://cutadapt.readthedocs.io/en/stable/installation.html) 
+-   Aligner: [Bismark](https://www.bioinformatics.babraham.ac.uk/projects/bismark/)
+-   Duplicate removal: [samtools](http://www.htslib.org/download/)
+-   Perl dependencies: SINBAD uses two perl scripts for demultiplexing (see below).
 
 You can install these tools by yourself. For convenience, we provide the
 binaries in
-[here](https://chopri.box.com/s/l8o4v6ko8aeabo3fsdtfan8gxjxzg39h) .
-Please cite the specific tool when you use it, in adition to MethylPipe.
+[here](https://chopri.box.com/s/vplpxht3r7u6i0fcnio803wlnezuc5o3) .
+Please cite the specific tool when you use it, in addition to SINBAD.
 
-You can download demultiplex\_fastq.pl script from
-[here](https://chopri.box.com/s/vplpxht3r7u6i0fcnio803wlnezuc5o3).
+You can download the perl scripts from our [repository](perl/). 
 
 You also need genomic sequence and annotated genomic regions for
 quantification of methylation calls. We provide the sequence data for
-hg38 assembly in
-[here](https://chopri.box.com/s/rf6fk2gumtbe3au83msxniwnkzkukvr5).
+hg38 and mm10 assemblies in
+[here](https://chopri.box.com/s/ajbbqsu3vqumygqu8uzqex5m7afpniwr).
 
 ## Graphical User Interface
 
-SINBAD has an easy to use Graphical User Interface (GUI). Detailed
-instructions for the GUI are available in the [SINBAD User
-Manual](docs/SINBAD_User_Manual.pdf).
+SINBAD can be run using simple R instructions. It also has an easy to use Graphical User Interface (GUI). The users with no R programming background can use the GUI to process and analyze their single cell DNA methylation sequencing datasets. Please see the user manual (below) on how to use SINBAD via GUI.
 
 <p align="center">
 <img src="docs/SINBAD_alignment.png" width="800" title="">
 </p>
 
+## User Manual
+
+Detailed instructions for using SINBAD are available in the [SINBAD User Manual](docs/SINBAD_User_Manual.pdf). You can find the information about seeting the parameters and executing the analysis steps in the manual.
+
 ## Configuration
 
 To run SINBAD, you need three configuration files to modify:
 
--   `config.general.R` : Sets the progam paths to be used by MethylPipe.
+-   `config.general.R` : Sets the progam paths to be used by SINBAD.
     You need to edit this file only once.
 -   `config.genome.R` : Sets the genomic information and paths to be
-    used by MethylPipe. You need to generate one for each organism. We
-    provide the built-in configuration by hg38.
+    used by SINBAD. You need to generate one for each organism. We
+    provide the built-in configuration for hg38 assembly.
 -   `config.project.R` : You need to configure this file for your
     project.
 
-You can download the templates for the configuration files from
-[here](https://chopri.box.com/s/rkqnwx4ck7larpthluyxse4hi8quypk0) and
+You can download the templates for the configuration files from the [repository](config_files/) and
 edit them for your purposes.
 
 ## Running
@@ -107,7 +104,7 @@ read_configs(config_dir)
 `config_dir` should point to your configuration file directory
 (mentioned above).
 
-1.  Process data:
+2.  Process data:
 
 ``` r
 process_sample_wrapper(raw_fastq_dir, demux_index_file, working_dir, sample_name)
@@ -129,15 +126,14 @@ into related directories in `working_dir`.
 
 ## Example Data
 
-For testing SINBAD, we provide [sample raw read (FASTQ)
-data](https://chopri.box.com/s/7cu5cc655sq267o3pvdh29ar20n89nnw)
+For testing SINBAD, we provide [example single ended and pair ended datasets](https://chopri.box.com/s/bzb3fb4dykenl99rethdxiqy6389wvat) generated with snmC-Seq protocol.
 
 ## Citation
 
 If you use SINBAD in your study, please cite it as follows:
 
 SINBAD: A pipeline for processing SINgle cell Bisulfite sequencing
-samples and Analysis of Data , GitHub, 2021.
+samples and Analysis of Data, GitHub, 2021.
 
 ## Contact
 
