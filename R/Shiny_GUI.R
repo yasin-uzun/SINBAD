@@ -1,4 +1,4 @@
-# library(shiny)
+library(shiny)
 
 # object is initially NULL
 sinbad_object <- NULL
@@ -252,6 +252,11 @@ render_image <- function(outfile) {
 }
 
 server <- function(input, output) {
+  # load object
+  observeEvent(input$load_sinbad_object, {
+    sinbad_object <<- readRDS(file.choose())
+  })
+
   # load object
   observeEvent(input$load_sinbad_object, {
     sinbad_object <<- readRDS(file.choose())

@@ -116,8 +116,7 @@ wrap_demux_fastq_files <- function(sinbad_object, flag_r2_index_embedded_in_r1_r
   #TODO: Check the input fastq dir and demux file exists, give error and stop otherwise
 
 
-  if(sequencing_type == 'paired' )
-  { #Pair ended
+  if(sequencing_type == 'paired' ) { #Pair ended
     demux_fastq_files(raw_fastq_dir = sinbad_object$raw_fastq_dir,
                       demux_index_file = sinbad_object$demux_index_file,
                       demux_index_length = demux_index_length,
@@ -126,8 +125,7 @@ wrap_demux_fastq_files <- function(sinbad_object, flag_r2_index_embedded_in_r1_r
                       sample_name = sinbad_object$sample_name,
                       read_type = 'R1')
 
-    if(flag_r2_index_embedded_in_r1_reads)
-    {
+    if (flag_r2_index_embedded_in_r1_reads) {
 
       demux_fastq_files(sinbad_object$r2_meta_fastq_dir,
                       sinbad_object$demux_index_file,
@@ -136,7 +134,7 @@ wrap_demux_fastq_files <- function(sinbad_object, flag_r2_index_embedded_in_r1_r
                       sinbad_object$main_log_dir,
                       sinbad_object$sample_name,
                       read_type = 'R2')
-    }else{
+    } else {
       demux_fastq_files(sinbad_object$raw_fastq_dir,
                         sinbad_object$demux_index_file,
                         demux_index_length,
@@ -145,8 +143,7 @@ wrap_demux_fastq_files <- function(sinbad_object, flag_r2_index_embedded_in_r1_r
                         sinbad_object$sample_name,
                         read_type = 'R2')
     }# if(flag_r2_index_embedded_in_r1_reads)
-  }else
-  { #single ended
+  } else { #single ended
     demux_fastq_files(sinbad_object$raw_fastq_dir,
                       sinbad_object$demux_index_file,
                       demux_index_length,
@@ -189,8 +186,6 @@ wrap_trim_fastq_files <- function(sinbad_object)#Trim adapters
 wrap_trim_stats <- function(sinbad_object)#Trim adapters
 {
   sinbad_object$trimmed_read_counts = count_fastq_reads(sinbad_object$trimmed_fastq_dir)
-
-
 
   return(sinbad_object)
 }
