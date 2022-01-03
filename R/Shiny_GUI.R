@@ -287,26 +287,38 @@ server <- function(input, output) {
 
   # confguration directory
  observeEvent(input$browse_config_dir, {
-    config_dir <<- choose.dir()
-    SINBAD::read_configs(config_dir)
+    tmp <- choose.dir()
+    if (!is.na(tmp)) {
+        config_dir <<- tmp
+        SINBAD::read_configs(config_dir)
+    }
  })
 
   # demux file
  observeEvent(input$browse_demux_index_file, {
-    demux_index_file <<- file.choose()
+    tmp <- file.choose()
+    if (!is.na(tmp)) {
+        demux_index_file <<- tmp
+    }
     try_create_object(input$sample_name)
  })
 
   # reads directory
  observeEvent(input$browse_fastq_dir, {
-    raw_fastq_dir <<- choose.dir()
+    tmp <- choose.dir()
+    if (!is.na(tmp)) {
+        raw_fastq_dir <<- tmp
+    }
     try_create_object(input$sample_name)
  })
 
   # output directory
  observeEvent(input$browse_working_dir, {
-    working_dir <<- choose.dir()
-    dir.create(working_dir, recursive = TRUE)
+    tmp <- choose.dir()
+    if (!is.na(tmp)) {
+        working_dir <<- tmp
+        dir.create(working_dir, recursive = TRUE)
+    }
     try_create_object(input$sample_name)
  })
 
