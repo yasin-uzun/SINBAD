@@ -8,6 +8,15 @@ working_dir <- NULL
 demux_index_file <- NULL
 
 
+# helper function for creation of SINBAD object once appropriate
+try_create_object <- function(sample_name) {
+    if (is.null(sinbad_object) && !is.null(raw_fastq_dir) && !is.null(demux_index_file) && !is.null(working_dir) && !is.null(sample_name)) {
+        sinbad_object <<- construct_sinbad_object(
+            raw_fastq_dir, demux_index_file, working_dir, sample_name)
+    }
+}
+
+
 # helper function for displaying an image
 render_image <- function(outfile) {
   error_msg = paste(outfile, 'cannot be found.')
@@ -273,16 +282,20 @@ server <- function(input, output) {
   # demux file
  observeEvent(input$browse_demux_index_file, {
     demux_index_file <<- file.choose()
+    try_create_object(input$sample_name)
  })
 
   # reads directory
  observeEvent(input$browse_fastq_dir, {
     raw_fastq_dir <<- choose.dir()
+    try_create_object(input$sample_name)
  })
 
   # output directory
  observeEvent(input$browse_working_dir, {
     working_dir <<- choose.dir()
+    dir.create(working_dir, recursive = TRUE)
+    try_create_object(input$sample_name)
  })
 
  # LOADING OR SAVING OBJECTS
@@ -297,11 +310,36 @@ server <- function(input, output) {
     sinbad_object <<- readRDS(file.choose())
   })
 
-  # PROCESSING AND PLOTTING
+  # PROCESSING
 
   # get plot proprocessing
   observeEvent(input$btn_pp, {
-    sinbad_object <<- wrap_plot_preprocessing_stats(sinbad_object)
+    # flags
+    flag_r2_index_embedded_in_r1_reads  = FALSE
+    if (exists('sequencing_type') & exists('is_r2_index_embedded_in_r1_reads')) {
+      if (sequencing_type == 'paired' & is_r2_index_embedded_in_r1_reads) {
+        flag_r2_index_embedded_in_r1_reads  = TRUE
+      }
+    }
+
+    if (flag_r2_index_embedded_in_r1_reads) {
+      get_r2_indeces_from_r1(r1_fastq_dir = raw_fastq_dir,
+                             r2_input_fastq_dir = raw_fastq_dir,
+                             r2_output_fastq_dir = sinbad_object$r2_meta_fastq_dir,
+                             sample_name = input$sample_name)
+    }
+
+    # Demux
+    sinbad_object = wrap_demux_fastq_files(sinbad_object, flag_r2_index_embedded_in_r1_reads)
+    sinbad_object = wrap_demux_stats(sinbad_object)
+    rownames(sinbad_object$df_demux_reports) = gsub('_merged', '', rownames(sinbad_object$df_demux_reports) )
+    print('Demux done')
+
+    #Trim
+    sinbad_object = wrap_trim_fastq_files(sinbad_object)
+    print('Trimming done')
+    sinbad_object = wrap_trim_stats(sinbad_object)
+    wrap_plot_preprocessing_stats(sinbad_object)
   })
 
   # get plot alignment
@@ -313,6 +351,8 @@ server <- function(input, output) {
   observeEvent(input$btn_met, {
     sinbad_object <<- wrap_plot_met_stats(sinbad_object)
   })
+
+  # PLOTTING
 
   # plot preprocessing
   observeEvent(input$btn_pp_stats, {
@@ -337,4 +377,5 @@ server <- function(input, output) {
 
 }
 
+# shiny run app
 shinyApp(ui, server)
