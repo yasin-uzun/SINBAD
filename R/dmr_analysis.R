@@ -1,4 +1,4 @@
-require(openxlsx)
+# require(openxlsx)
 
 dm_stat_test <- function(met_mat, cells_of_interest, bg_cells = NULL, test_type = 't', minimum_cell_count = 20)
 {

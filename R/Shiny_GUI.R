@@ -1,8 +1,29 @@
 library(shiny)
 
-# object is initially NULL
+# global objects
 sinbad_object <- NULL
+config_dir <- NULL
+raw_fastq_dir <- NULL
+working_dir <- NULL
+demux_index_file <- NULL
 
+
+# helper function for displaying an image
+render_image <- function(outfile) {
+  error_msg = paste(outfile, 'cannot be found.')
+  renderImage({
+    list(
+      src = outfile,
+      contentType = 'image/png',
+      width = 800,
+      height = 600,
+      alt = error_msg
+    )
+  }, deleteFile = FALSE)
+}
+
+
+# Shiny user interface
 ui <- fluidPage(
   tags$head(tags$style(
     HTML(
@@ -238,29 +259,45 @@ ui <- fluidPage(
   )
 )
 
-render_image <- function(outfile) {
-  error_msg = paste(outfile, 'cannot be found.')
-  renderImage({
-    list(
-      src = outfile,
-      contentType = 'image/png',
-      width = 800,
-      height = 600,
-      alt = error_msg
-    )
-  }, deleteFile = FALSE)
-}
-
+# Sever component
 server <- function(input, output) {
-  # load object
-  observeEvent(input$load_sinbad_object, {
-    sinbad_object <<- readRDS(file.choose())
+
+  # LOADING VARIABLES
+
+  # confguration directory
+ observeEvent(input$browse_config_dir, {
+    config_dir <<- choose.dir()
+    read_configs(config_dir)
+ })
+
+  # demux file
+ observeEvent(input$browse_demux_index_file, {
+    demux_index_file <<- file.choose()
+ })
+
+  # reads directory
+ observeEvent(input$browse_fastq_dir, {
+    raw_fastq_dir <<- choose.dir()
+ })
+
+  # output directory
+ observeEvent(input$browse_working_dir, {
+    working_dir <<- choose.dir()
+ })
+
+ # LOADING OR SAVING OBJECTS
+
+  # save object
+  observeEvent(input$save_sinbad_object, {
+    saveRDS(sinbad_object, file = file.choose())
   })
 
   # load object
   observeEvent(input$load_sinbad_object, {
     sinbad_object <<- readRDS(file.choose())
   })
+
+  # PROCESSING AND PLOTTING
 
   # get plot proprocessing
   observeEvent(input$btn_pp, {
