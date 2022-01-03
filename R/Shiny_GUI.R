@@ -8,11 +8,18 @@ working_dir <- NULL
 demux_index_file <- NULL
 
 
-# default objects
+# default objects (SETTINGS)
 sequencing_type <- "paired"
 demux_index_length <- 6
 is_r2_index_embedded_in_r1_reads <- TRUE
 num_cores <- 16
+
+# default objects (EXECUTE)
+mapq_threshold <- 10
+alignment_rate_threshold <- 20
+minimum_filtered_read_count <- 200000
+min_call_count_threshold <- 10
+max_ratio_of_na_cells <- 0.25
 
 
 # register cores
@@ -186,7 +193,7 @@ ui <- fluidPage(
                      splitLayout(
                        cellWidths = c("67%", "33%"),
                        p("Mapping quality threshold:", style = "font-weight:bold;overflow:visible;"),
-                       numericInput("mapq_threshold", NULL, value = "10")
+                       numericInput("mapq_threshold", NULL, value = mapq_threshold)
                      ),
 
                      splitLayout(
@@ -198,14 +205,14 @@ ui <- fluidPage(
                          NULL,
                          min = 0,
                          max = 100,
-                         value = 20
+                         value = alignment_rate_threshold
                        )
                      ),
 
                      splitLayout(
                        cellWidths = c("67%", "33%"),
                        p("Min read count for cell:", style = "font-weight:bold;overflow:visible;"),
-                       numericInput("minimum_filtered_read_count", NULL, value = "200000")
+                       numericInput("minimum_filtered_read_count", NULL, value = minimum_filtered_read_count)
                      ),
 
                      actionButton(
@@ -373,6 +380,9 @@ server <- function(input, output) {
     demux_index_length <<- input$demux_index_length
     is_r2_index_embedded_in_r1_reads <<- input$is_r2_index_embedded_in_r1_reads
     num_cores <<- input$num_cores
+    mapq_threshold <<- input$mapq_threshold
+    alignment_rate_threshold <<- input$alignment_rate_threshold
+    minimum_filtered_read_count <<- input$minimum_filtered_read_count
 
     #Align
     sinbad_object <<- SINBAD::wrap_align_sample(sinbad_object)
