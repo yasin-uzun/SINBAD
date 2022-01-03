@@ -344,11 +344,26 @@ server <- function(input, output) {
 
   # get plot alignment
   observeEvent(input$btn_align, {
+    #Align
+    sinbad_object <<- wrap_align_sample(sinbad_object)
+
+    #Alignment stats
+    sinbad_object <<- wrap_generate_alignment_stats(sinbad_object)
+
+    #Merge bam files
+    wrap_merge_r1_and_r2_bam(sinbad_object)
+
+    #Coverage
+    sinbad_object <<- wrap_compute_coverage_rates(sinbad_object)
+
+    #Plot alignment QC
     sinbad_object <<- wrap_plot_alignment_stats(sinbad_object)
   })
 
   # get plot methylation
   observeEvent(input$btn_met, {
+    sinbad_object <<- wrap_generate_methylation_stats(sinbad_object)
+    options(bitmapType='cairo')
     sinbad_object <<- wrap_plot_met_stats(sinbad_object)
   })
 
