@@ -8,10 +8,23 @@ working_dir <- NULL
 demux_index_file <- NULL
 
 
+# default objects
+sequencing_type <- "paired"
+demux_index_length <- 6
+is_r2_index_embedded_in_r1_reads <- TRUE
+num_cores <- 16
+
+
+# register cores
+doParallel::stopImplicitCluster()
+cores <- parallel::detectCores()
+doParallel::registerDoParallel(cores = max(1, cores))
+
+
 # helper function for creation of SINBAD object once appropriate
 try_create_object <- function(sample_name) {
     if (is.null(sinbad_object) && !is.null(raw_fastq_dir) && !is.null(demux_index_file) && !is.null(working_dir) && !is.null(sample_name)) {
-        sinbad_object <<- construct_sinbad_object(
+        sinbad_object <<- SINBAD::construct_sinbad_object(
             raw_fastq_dir, demux_index_file, working_dir, sample_name)
     }
 }
@@ -117,7 +130,7 @@ ui <- fluidPage(
                          label = NULL,
                          choices = c("paired",
                                      "single"),
-                         selected = "paired"
+                         selected = sequencing_type
                        )
                      ),
 
@@ -125,7 +138,7 @@ ui <- fluidPage(
                        cellWidths = c("67%", "33%"),
                        p("Demux index length:"),
                        numericInput("demux_index_length", NULL,
-                                    value = "6"),
+                                    value = demux_index_length),
                      ),
 
 
@@ -135,17 +148,16 @@ ui <- fluidPage(
                        radioButtons(
                          "is_r2_index_embedded_in_r1_reads",
                          NULL,
-                         choices = list("Yes" = T, "No" = F),
-                         selected = T,
-                         inline = T
+                         choices = list("Yes" = TRUE, "No" = FALSE),
+                         selected = is_r2_index_embedded_in_r1_reads,
+                         inline = TRUE
                        )
                      ),
-
 
                      splitLayout(
                        cellWidths = c("67%", "33%"),
                        p("Number of cores:"),
-                       numericInput("num_cores", NULL, value = "16")
+                       numericInput("num_cores", NULL, value = num_cores)
                      ),
 
                    ),
@@ -276,7 +288,7 @@ server <- function(input, output) {
   # confguration directory
  observeEvent(input$browse_config_dir, {
     config_dir <<- choose.dir()
-    read_configs(config_dir)
+    SINBAD::read_configs(config_dir)
  })
 
   # demux file
@@ -323,48 +335,54 @@ server <- function(input, output) {
     }
 
     if (flag_r2_index_embedded_in_r1_reads) {
-      get_r2_indeces_from_r1(r1_fastq_dir = raw_fastq_dir,
+      SINBAD::get_r2_indeces_from_r1(r1_fastq_dir = raw_fastq_dir,
                              r2_input_fastq_dir = raw_fastq_dir,
                              r2_output_fastq_dir = sinbad_object$r2_meta_fastq_dir,
                              sample_name = input$sample_name)
     }
 
     # Demux
-    sinbad_object = wrap_demux_fastq_files(sinbad_object, flag_r2_index_embedded_in_r1_reads)
-    sinbad_object = wrap_demux_stats(sinbad_object)
+    sinbad_object <<- SINBAD::wrap_demux_fastq_files(sinbad_object, flag_r2_index_embedded_in_r1_reads)
+    sinbad_object <<- SINBAD::wrap_demux_stats(sinbad_object)
     rownames(sinbad_object$df_demux_reports) = gsub('_merged', '', rownames(sinbad_object$df_demux_reports) )
     print('Demux done')
 
     #Trim
-    sinbad_object = wrap_trim_fastq_files(sinbad_object)
+    sinbad_object <<- SINBAD::wrap_trim_fastq_files(sinbad_object)
     print('Trimming done')
-    sinbad_object = wrap_trim_stats(sinbad_object)
-    wrap_plot_preprocessing_stats(sinbad_object)
+    sinbad_object <<- SINBAD::wrap_trim_stats(sinbad_object)
+    SINBAD::wrap_plot_preprocessing_stats(sinbad_object)
   })
 
   # get plot alignment
   observeEvent(input$btn_align, {
+    # update from inputs
+    sequencing_type <<- input$sequencing_type
+    demux_index_length <<- input$demux_index_length
+    is_r2_index_embedded_in_r1_reads <<- input$is_r2_index_embedded_in_r1_reads
+    num_cores <<- input$num_cores
+
     #Align
-    sinbad_object <<- wrap_align_sample(sinbad_object)
+    sinbad_object <<- SINBAD::wrap_align_sample(sinbad_object)
 
     #Alignment stats
-    sinbad_object <<- wrap_generate_alignment_stats(sinbad_object)
+    sinbad_object <<- SINBAD::wrap_generate_alignment_stats(sinbad_object)
 
     #Merge bam files
-    wrap_merge_r1_and_r2_bam(sinbad_object)
+    SINBAD::wrap_merge_r1_and_r2_bam(sinbad_object)
 
     #Coverage
-    sinbad_object <<- wrap_compute_coverage_rates(sinbad_object)
+    sinbad_object <<- SINBAD::wrap_compute_coverage_rates(sinbad_object)
 
     #Plot alignment QC
-    sinbad_object <<- wrap_plot_alignment_stats(sinbad_object)
+    SINBAD::wrap_plot_alignment_stats(sinbad_object)
   })
 
   # get plot methylation
   observeEvent(input$btn_met, {
-    sinbad_object <<- wrap_generate_methylation_stats(sinbad_object)
+    sinbad_object <<- SINBAD::wrap_generate_methylation_stats(sinbad_object)
     options(bitmapType='cairo')
-    sinbad_object <<- wrap_plot_met_stats(sinbad_object)
+    SINBAD::wrap_plot_met_stats(sinbad_object)
   })
 
   # PLOTTING
