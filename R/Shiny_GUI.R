@@ -472,6 +472,9 @@ server <- function(input, output) {
 
   # quantify
   observeEvent(input$btn_Quantify, {
+    min_call_count_threshold <<- input$min_call_count_threshold
+    max_ratio_of_na_cells <<- input$max_ratio_of_na_cells
+
     sinbad_object <<- ensure_annot_list(sinbad_object)
     annot_names = names(sinbad_object$annot_list)
     for(annot_name in annot_names) {
@@ -490,6 +493,9 @@ server <- function(input, output) {
 
   # dimensionality reduction
   observeEvent(input$btn_dim_red, {
+    min_call_count_threshold <<- input$min_call_count_threshold
+    max_ratio_of_na_cells <<- input$max_ratio_of_na_cells
+
     sinbad_object <<- ensure_annot_list(sinbad_object)
     annot_names = names(sinbad_object$annot_list)
     for (annot_name in annot_names) {
