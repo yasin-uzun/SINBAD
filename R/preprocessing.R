@@ -28,7 +28,7 @@ get_r2_indeces_from_r1 <- function(r1_fastq_dir, r2_input_fastq_dir, r2_output_f
   r1_fastq_file_count = length(r1_fastq_files)
 
   # overwrite Perl index script path
-  perl_index_transfer_path <- file.path(find.package("SINBAD"), "perl", "get_r2_indeces_from_r1.pl")
+  perl_index_transfer_path <- file.path(find.package("SINBAD"), "extdata", "get_r2_indeces_from_r1.pl")
 
   if (num_cores > 1) {
     thread_count = min(r1_fastq_file_count, num_cores)
@@ -110,7 +110,7 @@ demux_fastq_files <- function(raw_fastq_dir, demux_index_file, demux_index_lengt
       output_prefix = gsub('.fastq.gz', '', raw_fastq_file)
       #ssdemux_log_file = paste0(demux_log_dir, '/', raw_fastq_file, '.log')
 
-      perl_demux_path <- file.path(find.package("SINBAD"), "perl", "demultiplex_fastq.pl")
+      perl_demux_path <- file.path(find.package("SINBAD"), "extdata", "demultiplex_fastq.pl")
 
       demux_command = paste0('perl ', perl_demux_path, ' ',
                              ' --demux_index_file ',  demux_index_file ,
