@@ -37,6 +37,25 @@ try_create_object <- function(sample_name) {
 }
 
 
+# annotation list names
+ensure_annot_list <- function(sinbad_object) {
+    annot_format_file <- paste0(annot_dir, "/annot_file_format.txt")
+    annot_file <- paste0(annot_dir, '/hg38/', 'regions.Bins_100Kb.bed')
+    sinbad_object <- wrap_read_annot(sinbad_object, annot_file = annot_file, annot_format_file = annot_format_file, annot_name = 'Bins_100Kb')
+    annot_file <- paste0(annot_dir, '/hg38/', 'regions.Bins_10Kb.bed')
+    sinbad_object <- wrap_read_annot(sinbad_object, annot_file = annot_file, annot_format_file = annot_format_file, annot_name = 'Bins_10Kb')
+    annot_file <- paste0(annot_dir, '/hg38/', 'regions.all_genes.bed')
+    sinbad_object <- wrap_read_annot(sinbad_object, annot_file = annot_file, annot_format_file = annot_format_file, annot_name = 'Gene_Body')
+    annot_file <- paste0(annot_dir, '/hg38/', 'regions.all_genes_plus_2Kb.bed')
+    sinbad_object <- wrap_read_annot(sinbad_object, annot_file = annot_file, annot_format_file = annot_format_file, annot_name = 'Gene_Body-+2Kb')
+    annot_file <- paste0(annot_dir, '/hg38/', 'regions.TSS_up2Kb_down2Kb.bed')
+    sinbad_object <- wrap_read_annot(sinbad_object, annot_file = annot_file, annot_format_file = annot_format_file, annot_name = 'TSS-+2Kb')
+    annot_file <- paste0(annot_dir, '/hg38/', 'regions.TSS_up2Kb_down500bp.bed')
+    sinbad_object <- wrap_read_annot(sinbad_object, annot_file = annot_file, annot_format_file = annot_format_file, annot_name = 'TSS-2Kb+500bp')
+    sinbad_object
+}
+
+
 # helper function for displaying an image
 render_image <- function(outfile) {
   error_msg = paste(outfile, 'cannot be found.')
@@ -254,18 +273,37 @@ ui <- fluidPage(
                      splitLayout(
                        cellWidths = c("67%", "33%"),
                        p("Min call count for region:", style = "font-weight:bold;"),
-                       numericInput("min_call_count_threshold", NULL, value = "10")
+                       numericInput("min_call_count_threshold", NULL, value = min_call_count_threshold)
                      ),
 
                      splitLayout(
                        cellWidths = c("67%", "33%"),
                        p("Max ratio of missing cells:", style = "font-weight:bold;"),
-                       numericInput("max_ratio_of_na_cells", NULL, value = "0.25")
+                       numericInput("max_ratio_of_na_cells", NULL, value = max_ratio_of_na_cells)
                      ),
 
                      actionButton(
                        "btn_Quantify",
                        "Quantify",
+                       class = "btn-warning",
+                       width = '150px',
+                       style = 'padding:4px'
+                     ),
+
+                     actionButton(
+                       "btn_impute_nas",
+                       "Fill Missing",
+                       class = "btn-warning",
+                       width = '150px',
+                       style = 'padding:4px'
+                     ),
+
+                     br(),
+                     br(),
+
+                     actionButton(
+                       "btn_dim_red",
+                       "Dim. Red.",
                        class = "btn-warning",
                        width = '150px',
                        style = 'padding:4px'
@@ -428,6 +466,40 @@ server <- function(input, output) {
     outfile = paste0(sinbad_object$plot_dir,
                      "/QC/Met_call_statistics.png")
     output$myImage <- render_image(outfile)
+  })
+
+  # POST-HOC
+
+  # quantify
+  observeEvent(input$btn_Quantify, {
+    sinbad_object <<- ensure_annot_list(sinbad_object)
+    annot_names = names(sinbad_object$annot_list)
+    for(annot_name in annot_names) {
+      sinbad_object <<- wrap_quantify_regions(sinbad_object, annot_name = annot_name)
+    }
+  })
+
+  # impute missing values
+  observeEvent(input$btn_impute_nas, {
+    sinbad_object <<- ensure_annot_list(sinbad_object)
+    annot_names = names(sinbad_object$annot_list)
+    for (annot_name in annot_names) {
+      sinbad_object <<- wrap_impute_nas(sinbad_object, annot_name)
+    }
+  })
+
+  # dimensionality reduction
+  observeEvent(input$btn_dim_red, {
+    sinbad_object <<- ensure_annot_list(sinbad_object)
+    annot_names = names(sinbad_object$annot_list)
+    for (annot_name in annot_names) {
+      sinbad_object <<- wrap_dim_red(sinbad_object, annot_name)
+    }
+  })
+
+  # DMR
+  observeEvent(input$btn_DMR, {
+    sinbad_object <<- wrap_dmr_analysis(sinbad_object)
   })
 
 }
