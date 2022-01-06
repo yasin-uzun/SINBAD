@@ -3,8 +3,8 @@
 
 
 get_fast_files <- function(fastq_dir, pattern = '') {
-  fastq_files_1 = file.path(fastq_dir, list.files(fastq_dir, pattern = "\\.fastq.gz$"))
-  fastq_files_2 = file.path(fastq_dir, list.files(fastq_dir, pattern = "\\.fastq$"))
+  fastq_files_1 = list.files(fastq_dir, pattern = "\\.fastq.gz$")
+  fastq_files_2 = list.files(fastq_dir, pattern = "\\.fastq$")
 
   fastq_files = union(fastq_files_1, fastq_files_2)
   fastq_files = fastq_files[grepl(pattern = pattern, fastq_files)]
@@ -146,7 +146,7 @@ read_demux_logs <- function(main_log_dir)
   {
     print(demux_log_file)
     lane_id = gsub('.log', '', demux_log_file)
-    list_df_demux_combined[[lane_id]] = read.table(demux_log_file, header = T)
+    list_df_demux_combined[[lane_id]] = read.table(demux_log_file, header = TRUE)
   }#for
 
   df_demux_combined = do.call('rbind', list_df_demux_combined)
