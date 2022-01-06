@@ -1019,6 +1019,7 @@ count_bam_files <- function(alignment_dir)
 
   print('Counting mapq filtered bam files')
   df_mapq_read_counts = SINBAD::mcsapply(mapq_files, FUN = Rsamtools::countBam, mc.cores = num_cores)
+  print(df_mapq_read_counts)
   mapq_read_counts = unlist(df_mapq_read_counts['records', ] )
   names(mapq_read_counts) = gsub('.mapq_filtered.bam', '', names(mapq_read_counts))
 
