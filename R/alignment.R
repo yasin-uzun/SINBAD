@@ -660,6 +660,7 @@ process_bismark_alignment_reports <- function(alignment_dir)
 {
   # setwd(alignment_dir)
   report_files = list.files(alignment_dir, pattern = "*SE_report.txt")
+  report_files = file.path(alignment_dir, report_files)
   row_names = c()
   result_list = list()
   for(report_file in report_files)
