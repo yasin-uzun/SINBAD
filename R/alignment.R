@@ -20,8 +20,8 @@ align_sample <- function(read_dir,
   dir.create(alignment_log_dir, recursive = T)
   # setwd(alignment_dir)
 
-  fastq_files_1 = list.files(read_dir, pattern = "*.fastq.gz")
-  fastq_files_2 = list.files(read_dir, pattern = "*.fastq")
+  fastq_files_1 = file.path(alignment_dir, list.files(read_dir, pattern = "*.fastq.gz"))
+  fastq_files_2 = file.path(alignment_dir, list.files(read_dir, pattern = "*.fastq"))
 
   fastq_files = union(fastq_files_1, fastq_files_2)
   fastq_files = fastq_files[grepl(pattern, fastq_files)]
@@ -104,7 +104,7 @@ align_sample <- function(read_dir,
 
 find_failed_alignments <- function(aligner_log_dir, read_dir, pattern = '')
 {
-  log_files = list.files(aligner_log_dir, "*.log")
+  log_files = file.path(aligner_log_dir, list.files(aligner_log_dir, "*.log"))
   log_files = log_files[grepl(pattern, log_files)]
   length(log_files)
   # setwd(aligner_log_dir)
@@ -119,7 +119,7 @@ find_failed_alignments <- function(aligner_log_dir, read_dir, pattern = '')
   completed =  names(log_matches)[log_matches>0]
   successfull_fastq = gsub('.log', '', completed)
 
-  all_fastq_files = list.files(read_dir, full.names = FALSE)
+  all_fastq_files = file.path(read_dir, list.files(read_dir, full.names = FALSE))
   all_fastq_files = all_fastq_files[grepl(pattern, all_fastq_files)]
 
   failed_fastq = setdiff(all_fastq_files, successfull_fastq)
@@ -659,8 +659,7 @@ split_lambda_old <- function(alignment_dir, cell_id, log_dir)
 process_bismark_alignment_reports <- function(alignment_dir)
 {
   # setwd(alignment_dir)
-  report_files = list.files(alignment_dir, pattern = "*SE_report.txt")
-  report_files = file.path(alignment_dir, report_files)
+  report_files = file.path(alignment_dir, list.files(alignment_dir, pattern = "*SE_report.txt"))
   row_names = c()
   result_list = list()
   for(report_file in report_files)
@@ -1090,7 +1089,7 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
                          min_base_quality=10, min_nucleotide_depth=1)
 
 
-  bam_files = list.files(alignment_dir,  pattern = '*organism.sorted.bam$')
+  bam_files = file.path(alignment_dir, list.files(alignment_dir,  pattern = '*organism.sorted.bam$'))
   #   bam_files = bam_files[1:250]
 
   base_counts = c()
@@ -1257,7 +1256,7 @@ merge_r1_and_r2_bam_for_cell <- function(r1_bam, r2_bam, merged_bam)
 merge_r1_and_r2_bam_for_sample <- function(alignment_dir_in,  alignment_dir_out, bam_type = 'organism' )
 {
 
-  r1_bam_files = list.files(alignment_dir_in, pattern = 'R1')
+  r1_bam_files = file.path(alignment_dir_in, list.files(alignment_dir_in, pattern = 'R1'))
   bam_type_str = paste0(bam_type, '.bam$')
   r1_bam_files = r1_bam_files[grepl(bam_type_str, r1_bam_files)]
 

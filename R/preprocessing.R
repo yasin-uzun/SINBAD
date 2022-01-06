@@ -3,8 +3,8 @@
 
 
 get_fast_files <- function(fastq_dir, pattern = '') {
-  fastq_files_1 = list.files(fastq_dir, pattern = "\\.fastq.gz$")
-  fastq_files_2 = list.files(fastq_dir, pattern = "\\.fastq$")
+  fastq_files_1 = file.path(fastq_dir, list.files(fastq_dir, pattern = "\\.fastq.gz$"))
+  fastq_files_2 = file.path(fastq_dir, list.files(fastq_dir, pattern = "\\.fastq$"))
 
   fastq_files = union(fastq_files_1, fastq_files_2)
   fastq_files = fastq_files[grepl(pattern = pattern, fastq_files)]
@@ -86,8 +86,8 @@ demux_fastq_files <- function(raw_fastq_dir, demux_index_file, demux_index_lengt
 {
   # setwd(raw_fastq_dir)
 
-  fastq_files_1 = list.files(raw_fastq_dir, pattern = "\\.fastq.gz$")
-  fastq_files_2 = list.files(raw_fastq_dir, pattern = "\\.fastq$")
+  fastq_files_1 = file.path(raw_fastq_dir, list.files(raw_fastq_dir, pattern = "\\.fastq.gz$"))
+  fastq_files_2 = file.path(raw_fastq_dir, list.files(raw_fastq_dir, pattern = "\\.fastq$"))
 
   raw_fastq_files = union(fastq_files_1, fastq_files_2)
   raw_fastq_files = raw_fastq_files[!grepl('Undetermined', raw_fastq_files)]
@@ -137,7 +137,7 @@ read_demux_logs <- function(main_log_dir)
 {
 
   demux_log_dir = paste0(main_log_dir, '/demux/')
-  demux_log_files = list.files(demux_log_dir, pattern = "\\.log$")
+  demux_log_files = file.path(demux_log_dir, list.files(demux_log_dir, pattern = "\\.log$"))
   demux_log_files = demux_log_files[!grepl('Undetermined', demux_log_files)]
   # setwd(demux_log_dir)
   list_df_demux_combined = list()
@@ -163,8 +163,8 @@ trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
   print('Trimming fastq files')
   # setwd(demux_fastq_dir)
 
-  fastq_files_1 = list.files(demux_fastq_dir, pattern = ".fastq.gz")
-  fastq_files_2 = list.files(demux_fastq_dir, pattern = ".fastq")
+  fastq_files_1 = file.path(demux_fastq_dir, list.files(demux_fastq_dir, pattern = ".fastq.gz"))
+  fastq_files_2 = file.path(demux_fastq_dir, list.files(demux_fastq_dir, pattern = ".fastq"))
 
   demux_fastq_files = union(fastq_files_1, fastq_files_2)
   demux_fastq_files = demux_fastq_files[!grepl('No_matching_index', demux_fastq_files)]
@@ -266,7 +266,7 @@ trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
 process_cutadapt_logs <- function(main_log_dir)
 {
   cutadapt_log_dir = paste0(log_dir, '/cutadapt/')
-  cutadapt_log_files = list.files(cutadapt_log_dir, pattern = "*.log")
+  cutadapt_log_files = file.path(cutadapt_log_dir, list.files(cutadapt_log_dir, pattern = "*.log"))
   # setwd(cutadapt_log_dir)
 
   row_names = c()
@@ -304,8 +304,8 @@ process_cutadapt_logs <- function(main_log_dir)
 count_fastq_reads <- function(fastq_dir)
 {
   print(paste('Reading fastq files from the directory:', fastq_dir))
-  fastq_files_1 = list.files(fastq_dir, pattern = ".fastq.gz")
-  fastq_files_2 = list.files(fastq_dir, pattern = ".fastq")
+  fastq_files_1 = file.path(fastq_dir, list.files(fastq_dir, pattern = ".fastq.gz"))
+  fastq_files_2 = file.path(fastq_dir, list.files(fastq_dir, pattern = ".fastq"))
 
   fastq_files = union(fastq_files_1, fastq_files_2)
   fastq_files = fastq_files[!grepl('No_matching_index', fastq_files)]

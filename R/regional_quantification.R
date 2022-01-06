@@ -108,9 +108,7 @@ compute_call_count_matrices <- function(  df_region,
   gr_region = convert_to_GenomicRanges::GRanges(df_region)
   # setwd(methylation_calls_dir)
   pattern  = paste0(methylation_type, '.*organism.cov.gz')
-  cov_files = list.files(methylation_calls_dir, pattern)
-
-
+  cov_files = file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern))
 
   result_list = list()
 
