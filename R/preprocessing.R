@@ -146,7 +146,10 @@ read_demux_logs <- function(main_log_dir)
   {
     print(demux_log_file)
     lane_id = gsub('.log', '', demux_log_file)
-    list_df_demux_combined[[lane_id]] = read.table(demux_log_file, header = TRUE)
+    tryCatch({
+      list_df_demux_combined[[lane_id]] = read.table(demux_log_file, header = TRUE)
+    }, error = function(e) {
+    })
   }#for
 
   df_demux_combined = do.call('rbind', list_df_demux_combined)
