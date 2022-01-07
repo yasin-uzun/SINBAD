@@ -166,8 +166,8 @@ trim_fastq_files <- function(demux_fastq_dir, trimmed_fastq_dir, main_log_dir)
   print('Trimming fastq files')
   # setwd(demux_fastq_dir)
 
-  fastq_files_1 = file.path(demux_fastq_dir, list.files(demux_fastq_dir, pattern = ".fastq.gz"))
-  fastq_files_2 = file.path(demux_fastq_dir, list.files(demux_fastq_dir, pattern = ".fastq"))
+  fastq_files_1 = list.files(demux_fastq_dir, pattern = ".fastq.gz")
+  fastq_files_2 = list.files(demux_fastq_dir, pattern = ".fastq")
 
   demux_fastq_files = union(fastq_files_1, fastq_files_2)
   demux_fastq_files = demux_fastq_files[!grepl('No_matching_index', demux_fastq_files)]
