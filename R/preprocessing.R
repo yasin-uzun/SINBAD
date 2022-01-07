@@ -86,8 +86,8 @@ demux_fastq_files <- function(raw_fastq_dir, demux_index_file, demux_index_lengt
 {
   # setwd(raw_fastq_dir)
 
-  fastq_files_1 = file.path(raw_fastq_dir, list.files(raw_fastq_dir, pattern = "\\.fastq.gz$"))
-  fastq_files_2 = file.path(raw_fastq_dir, list.files(raw_fastq_dir, pattern = "\\.fastq$"))
+  fastq_files_1 = list.files(raw_fastq_dir, pattern = "\\.fastq.gz$")
+  fastq_files_2 = list.files(raw_fastq_dir, pattern = "\\.fastq$")
 
   raw_fastq_files = union(fastq_files_1, fastq_files_2)
   raw_fastq_files = raw_fastq_files[!grepl('Undetermined', raw_fastq_files)]
