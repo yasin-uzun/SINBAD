@@ -307,8 +307,8 @@ process_cutadapt_logs <- function(main_log_dir)
 count_fastq_reads <- function(fastq_dir)
 {
   print(paste('Reading fastq files from the directory:', fastq_dir))
-  fastq_files_1 = file.path(fastq_dir, list.files(fastq_dir, pattern = ".fastq.gz"))
-  fastq_files_2 = file.path(fastq_dir, list.files(fastq_dir, pattern = ".fastq"))
+  fastq_files_1 = list.files(fastq_dir, pattern = ".fastq.gz")
+  fastq_files_2 = list.files(fastq_dir, pattern = ".fastq")
 
   fastq_files = union(fastq_files_1, fastq_files_2)
   fastq_files = fastq_files[!grepl('No_matching_index', fastq_files)]
