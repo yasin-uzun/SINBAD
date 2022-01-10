@@ -7,7 +7,7 @@ call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_d
   dir.create(methylation_calls_dir, showWarnings = F, recursive = T)
   # setwd(alignment_dir)
 
-  bam_files = file.path(alignment_dir, list.files(alignment_dir, pattern = "*.organism.bam$"))
+  bam_files = list.files(alignment_dir, pattern = "*.organism.bam$")
 
   if(num_cores > 1)
   {
@@ -52,7 +52,7 @@ call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_d
 
 find_failed_met_calls <- function(methylation_calls_dir)
 {
-  cpg_met_files = file.path(list.files(methylation_calls_dir, pattern = "CpG_calls.*cov.gz"))
+  cpg_met_files = list.files(methylation_calls_dir, pattern = "CpG_calls.*cov.gz")
   cpg_met_paths = paste0(methylation_calls_dir, cpg_met_files)
   cell_ids = cpg_met_files
   cell_ids = gsub("CpG_calls.", "", cell_ids)
@@ -65,7 +65,7 @@ find_failed_met_calls <- function(methylation_calls_dir)
 
   # setwd(methylation_calls_dir)
   pattern = paste0('.', 'organism', "_splitting_report.txt")
-  report_files = file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern = paste0("*", pattern) ))
+  report_files = list.files(methylation_calls_dir, pattern = paste0("*", pattern) )
   if(length(report_files) == 0 ) {return(NULL) }
   row_names = c()
   result_list = list()
@@ -170,7 +170,7 @@ process_bismark_split_reports <- function(methylation_calls_dir, genome_type = '
 {
   # setwd(methylation_calls_dir)
   pattern = paste0('.', genome_type, "_splitting_report.txt")
-  report_files = file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern = paste0("*", pattern) ))
+  report_files = list.files(methylation_calls_dir, pattern = paste0("*", pattern) )
   if(length(report_files) == 0 ) {return(NULL) }
   row_names = c()
   result_list = list()
@@ -202,7 +202,7 @@ process_bismark_bias_reports <- function(methylation_calls_dir, genome_type = 'o
 {
   # setwd(methylation_calls_dir)
   pattern = paste0('.', genome_type, ".M-bias.txt")
-  report_files = file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern = paste0("*", pattern) ))
+  report_files = list.files(methylation_calls_dir, pattern = paste0("*", pattern) )
   row_names = c()
   result_list = list()
   CpG_met_rates_list = list()
@@ -262,7 +262,7 @@ get_met_call_counts <- function(methylation_calls_dir, met_type = 'CpG')
 
   print('--------------------------------------------------------------------')
 
-  cov_files= file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern = paste0( met_type, '.*', 'cov.gz')))
+  cov_files= list.files(methylation_calls_dir, pattern = paste0( met_type, '.*', 'cov.gz'))
   met_call_counts = c()
   counter = 0
 
