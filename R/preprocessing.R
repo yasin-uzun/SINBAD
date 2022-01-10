@@ -417,7 +417,7 @@ plot_preprocessing_results <- function(sample_name, demux_reports, demux_read_co
   ###########DEMUX BOXPLOT####################
   par(mar = c(6,7,6,5))
 
-
+  cat("???\t", names(demux_reports), "\n")
   list_demux_counts = demux_reports[c('Total_reads', 'Reads_with_matching_index')] /1000000
   roof = max(list_demux_counts) * 1.2
 
