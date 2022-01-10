@@ -5,7 +5,7 @@
 call_methylation_sites_for_sample <- function(alignment_dir, methylation_calls_dir, log_dir, bme_param_settings)
 {
   dir.create(methylation_calls_dir, showWarnings = F, recursive = T)
-  # setwd(alignment_dir)
+  setwd(alignment_dir)
 
   bam_files = file.path(alignment_dir, list.files(alignment_dir, pattern = "*.organism.bam$"))
 
@@ -63,7 +63,7 @@ find_failed_met_calls <- function(methylation_calls_dir)
   zero.size.files = cell_ids[file.sizes == 0]
 
 
-  # setwd(methylation_calls_dir)
+  setwd(methylation_calls_dir)
   pattern = paste0('.', 'organism', "_splitting_report.txt")
   report_files = file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern = paste0("*", pattern) ))
   if(length(report_files) == 0 ) {return(NULL) }
@@ -88,7 +88,7 @@ find_failed_met_calls <- function(methylation_calls_dir)
 
 call_methylation_sites_for_cell <- function(alignment_dir, methylation_calls_dir, cell_id, bme_param_settings, log_dir)
 {
-  # setwd(alignment_dir)
+  setwd(alignment_dir)
 
   lambda_file = paste0(cell_id,'.lambda.bam')
   organism_file = paste0(cell_id,'.organism.bam')
@@ -115,7 +115,7 @@ call_methylation_sites_for_cell <- function(alignment_dir, methylation_calls_dir
   command_result_2 = system(sys_command)
 
   #Convert to bismark cov format (Only for organism, not for lambda control)
-  # setwd(methylation_calls_dir)
+  setwd(methylation_calls_dir)
 
   sink(log_file, append = T)
 
@@ -168,7 +168,7 @@ call_methylation_sites_for_cell <- function(alignment_dir, methylation_calls_dir
 
 process_bismark_split_reports <- function(methylation_calls_dir, genome_type = 'organism')
 {
-  # setwd(methylation_calls_dir)
+  setwd(methylation_calls_dir)
   pattern = paste0('.', genome_type, "_splitting_report.txt")
   report_files = file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern = paste0("*", pattern) ))
   if(length(report_files) == 0 ) {return(NULL) }
@@ -200,7 +200,7 @@ process_bismark_split_reports <- function(methylation_calls_dir, genome_type = '
 
 process_bismark_bias_reports <- function(methylation_calls_dir, genome_type = 'organism')
 {
-  # setwd(methylation_calls_dir)
+  setwd(methylation_calls_dir)
   pattern = paste0('.', genome_type, ".M-bias.txt")
   report_files = file.path(methylation_calls_dir, list.files(methylation_calls_dir, pattern = paste0("*", pattern) ))
   row_names = c()

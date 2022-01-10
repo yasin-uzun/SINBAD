@@ -6,8 +6,8 @@
 # library(doSNOW)
 
 # set working directory
-# # setwd("/Users/Shane/Code/packaging/SINBAD")
-# setwd("/mnt/c/Users/Shane/Code/packaging/SINBAD")
+# setwd("/Users/Shane/Code/packaging/SINBAD")
+setwd("/mnt/c/Users/Shane/Code/packaging/SINBAD")
 
 # load SINBAD
 devtools::load_all()
