@@ -18,7 +18,7 @@ align_sample <- function(read_dir,
 {
   alignment_log_dir= paste0(main_log_dir, '/alignment/')
   dir.create(alignment_log_dir, recursive = T)
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
 
   fastq_files_1 = list.files(read_dir, pattern = "*.fastq.gz")
   fastq_files_2 = list.files(read_dir, pattern = "*.fastq")
@@ -107,7 +107,7 @@ find_failed_alignments <- function(aligner_log_dir, read_dir, pattern = '')
   log_files = file.path(aligner_log_dir, list.files(aligner_log_dir, "*.log"))
   log_files = log_files[grepl(pattern, log_files)]
   length(log_files)
-  setwd(aligner_log_dir)
+  # setwd(aligner_log_dir)
 
   log_matches <- sapply(log_files, FUN=function(x){
     grep("Alignment is successful", readLines(x))
@@ -255,7 +255,7 @@ run_bismark_aligner <- function(read_dir, fastq_file_left, fastq_file_right = NU
                                 cell_id, log_dir)
 {
 
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
 
   log_sub_dir = paste0(log_dir, '/bismark_aligner/')
   dir.create(log_sub_dir, recursive = T, showWarnings = F)
@@ -294,8 +294,8 @@ run_bs_seeker_aligner <- function(read_dir, fastq_file_left, fastq_file_right = 
                                   cell_id, log_dir, is_paired = F)
 {
 
-  #setwd(alignment_dir)
-  setwd(bs_seeker_path)
+  # setwd(alignment_dir)
+  # setwd(bs_seeker_path)
 
   log_sub_dir = paste0(log_dir, '/align/')
   dir.create(log_sub_dir, recursive = T, showWarnings = F)
@@ -355,7 +355,7 @@ run_bsmap_aligner <- function(read_dir, fastq_file_left, fastq_file_right = NULL
                               cell_id, log_dir, is_paired = F)
 {
 
-  #setwd(alignment_dir)
+  # setwd(alignment_dir)
 
   log_sub_dir = paste0(log_dir, '/align/')
   dir.create(log_sub_dir, recursive = T, showWarnings = F)
@@ -417,7 +417,7 @@ run_bsmap_aligner <- function(read_dir, fastq_file_left, fastq_file_right = NULL
 
 filter_mapq <- function(alignment_dir, cell_id, mapq_threshold = 10, log_dir)
 {
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
   command_result = 0
   log_sub_dir = paste0(log_dir, '/filter_mapq/')
   dir.create(log_sub_dir, recursive = T, showWarnings = F)
@@ -531,7 +531,7 @@ remove_duplicate_reads <- function(alignment_dir, cell_id,
 
 filter_non_conversion <- function(alignment_dir, cell_id, log_dir)
 {
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
   command_result = 0
   rmdup_file = paste0(cell_id,'.rmdup.bam')
 
@@ -563,7 +563,7 @@ filter_non_conversion <- function(alignment_dir, cell_id, log_dir)
 
 split_lambda <- function(alignment_dir, cell_id, log_dir)
 {
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
   command_result = 0
   noncon_file = paste0(cell_id,'.rmdup.nonCG_filtered.bam')
   sorted_file = paste0(cell_id,'.rmdup.nonCG_filtered.sorted.bam')
@@ -617,7 +617,7 @@ split_lambda <- function(alignment_dir, cell_id, log_dir)
 
 split_lambda_old <- function(alignment_dir, cell_id, log_dir)
 {
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
   command_result = 0
   noncon_file = paste0(cell_id,'.rmdup.nonCG_filtered.bam')
   sorted_file = paste0(cell_id,'.rmdup.nonCG_filtered.sorted.bam')
@@ -658,7 +658,7 @@ split_lambda_old <- function(alignment_dir, cell_id, log_dir)
 
 process_bismark_alignment_reports <- function(alignment_dir)
 {
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
   report_files = list.files(alignment_dir, pattern = "*SE_report.txt")
   row_names = c()
   result_list = list()
@@ -998,7 +998,7 @@ merge_r1_and_r2_alignment_stats <- function(df_alignment_stats)
 
 count_bam_files <- function(alignment_dir)
 {
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
   mapq_files = list.files(pattern = '*.mapq_filtered.bam')
   rmdup_files = list.files(pattern = '*.rmdup.bam')
   nc_filtered_files = list.files(pattern = '.*.nonCG_filtered.bam$')
@@ -1068,7 +1068,7 @@ count_bam_files <- function(alignment_dir)
 #bam_file = 'Lane1_ACTTGA.rmdup.nonCG_filtered.bam'
 compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
 {
-  setwd(alignment_dir)
+  # setwd(alignment_dir)
   print('***********************')
   print('Computing coverage rates')
 
