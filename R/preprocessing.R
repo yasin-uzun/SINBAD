@@ -146,10 +146,7 @@ read_demux_logs <- function(main_log_dir)
   {
     print(demux_log_file)
     lane_id = gsub('.log', '', demux_log_file)
-    tryCatch({
-      list_df_demux_combined[[lane_id]] = read.table(demux_log_file, header = TRUE)
-    }, error = function(e) {
-    })
+    list_df_demux_combined[[lane_id]] = read.table(demux_log_file, header = T)
   }#for
 
   df_demux_combined = do.call('rbind', list_df_demux_combined)
@@ -417,7 +414,7 @@ plot_preprocessing_results <- function(sample_name, demux_reports, demux_read_co
   ###########DEMUX BOXPLOT####################
   par(mar = c(6,7,6,5))
 
-  cat("???\t", names(demux_reports), "\n")
+
   list_demux_counts = demux_reports[c('Total_reads', 'Reads_with_matching_index')] /1000000
   roof = max(list_demux_counts) * 1.2
 

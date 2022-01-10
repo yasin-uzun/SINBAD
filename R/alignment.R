@@ -294,7 +294,7 @@ run_bs_seeker_aligner <- function(read_dir, fastq_file_left, fastq_file_right = 
                                   cell_id, log_dir, is_paired = F)
 {
 
-  # setwd(alignment_dir)
+  ## setwd(alignment_dir)
   # setwd(bs_seeker_path)
 
   log_sub_dir = paste0(log_dir, '/align/')
@@ -355,7 +355,7 @@ run_bsmap_aligner <- function(read_dir, fastq_file_left, fastq_file_right = NULL
                               cell_id, log_dir, is_paired = F)
 {
 
-  # setwd(alignment_dir)
+  ## setwd(alignment_dir)
 
   log_sub_dir = paste0(log_dir, '/align/')
   dir.create(log_sub_dir, recursive = T, showWarnings = F)
@@ -659,7 +659,8 @@ split_lambda_old <- function(alignment_dir, cell_id, log_dir)
 process_bismark_alignment_reports <- function(alignment_dir)
 {
   # setwd(alignment_dir)
-  report_files = file.path(alignment_dir, list.files(alignment_dir, pattern = "*SE_report.txt"))
+  report_files = list.files(alignment_dir, pattern = "*SE_report.txt")
+  report_files = file.path(alignment_dir, report_files)
   row_names = c()
   result_list = list()
   for(report_file in report_files)
@@ -1085,7 +1086,7 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
 
   sbp <- Rsamtools::ScanBamParam(which=chrom_ranges )
 
-  p_param <- Rsamtools::PileupParam(distinguish_nucleotides=FALSE,distinguish_strands=FALSE,
+  p_param <- PileupParam(distinguish_nucleotides=FALSE,distinguish_strands=FALSE,
                          min_base_quality=10, min_nucleotide_depth=1)
 
 
