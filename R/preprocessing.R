@@ -137,7 +137,7 @@ read_demux_logs <- function(main_log_dir)
 {
 
   demux_log_dir = paste0(main_log_dir, '/demux/')
-  demux_log_files = list.files(demux_log_dir, pattern = "\\.log$")
+  demux_log_files = file.path(demux_log_dir, list.files(demux_log_dir, pattern = "\\.log$"))
   demux_log_files = demux_log_files[!grepl('Undetermined', demux_log_files)]
   # setwd(demux_log_dir)
   list_df_demux_combined = list()
