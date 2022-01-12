@@ -20,8 +20,8 @@ align_sample <- function(read_dir,
   dir.create(alignment_log_dir, recursive = T)
   # setwd(alignment_dir)
 
-  fastq_files_1 = file.path(read_dir, list.files(read_dir, pattern = "*.fastq.gz"))
-  fastq_files_2 = file.path(read_dir, list.files(read_dir, pattern = "*.fastq"))
+  fastq_files_1 = list.files(read_dir, pattern = "*.fastq.gz")
+  fastq_files_2 = list.files(read_dir, pattern = "*.fastq")
 
   fastq_files = union(fastq_files_1, fastq_files_2)
   fastq_files = fastq_files[grepl(pattern, fastq_files)]
