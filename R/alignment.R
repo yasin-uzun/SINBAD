@@ -264,6 +264,7 @@ run_bismark_aligner <- function(read_dir, fastq_file_left, fastq_file_right = NU
 
   sys_command = paste0('bismark --bowtie2 ', aligner_param_settings
                        ,' --fastq  '
+                       ,' --dir ', alignment_dir
                        ,' --basename ', cell_id
                        ,' --bam ', genomic_sequence_path
                        ,'  ', read_dir, fastq_file_left
