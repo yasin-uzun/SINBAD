@@ -428,7 +428,7 @@ filter_mapq <- function(alignment_dir, cell_id, mapq_threshold = 10, log_dir)
   if(mapq_threshold > 0)
   {
     cat('Filtering alignments mapq > ', mapq_threshold, ' :' , cell_id, '\n')
-    sys_command = paste0('samtools view -bhq ',mapq_threshold,' ',cell_id,'.bam > ',cell_id,'.mapq_filtered.bam')
+    sys_command = paste0('samtools view -bhq ',mapq_threshold,' ',cell_id,'.bam > ', alignment_dir, cell_id,'.mapq_filtered.bam')
     command_result = system(sys_command)
   }else
   {
