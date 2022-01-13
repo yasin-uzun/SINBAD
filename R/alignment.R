@@ -110,7 +110,7 @@ find_failed_alignments <- function(aligner_log_dir, read_dir, pattern = '')
   setwd(aligner_log_dir)
 
   log_matches <- sapply(log_files, FUN=function(x){
-    grep("Alignment is successful", readLines(x))
+    grep("Alignment is successful", readLines(x))[1]
   })
 
   matches = unlist(log_matches)
