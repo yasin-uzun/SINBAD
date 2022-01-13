@@ -104,20 +104,21 @@ align_sample <- function(read_dir,
 
 find_failed_alignments <- function(aligner_log_dir, read_dir, pattern = '')
 {
+  cat("??? 1")
   log_files = list.files(aligner_log_dir, "*.log")
   log_files = log_files[grepl(pattern, log_files)]
-  length(log_files)
+
   setwd(aligner_log_dir)
 
   log_matches <- sapply(log_files, FUN=function(x){
     grep("Alignment is successful", readLines(x))
   })
-  length(log_matches)
+  cat("??? 2")
+
   matches = unlist(log_matches)
-  head(log_matches)
-  sum(log_matches == 41)
   completed =  names(log_matches)[log_matches>0]
   successfull_fastq = gsub('.log', '', completed)
+  cat("??? 3")
 
   all_fastq_files = list.files(read_dir, full.names = FALSE)
   all_fastq_files = all_fastq_files[grepl(pattern, all_fastq_files)]
