@@ -658,6 +658,7 @@ split_lambda_old <- function(alignment_dir, cell_id, log_dir)
 
 process_bismark_alignment_reports <- function(alignment_dir)
 {
+  print(alignment_dir)
   setwd(alignment_dir)
   report_files = list.files(alignment_dir, pattern = "*SE_report.txt")
   row_names = c()
