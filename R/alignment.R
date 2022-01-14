@@ -1018,25 +1018,25 @@ count_bam_files <- function(alignment_dir)
   # library(ShortRead)
 
   print('Counting mapq filtered bam files')
-  df_mapq_read_counts = SINBAD::mcsapply(mapq_files, FUN = countBam, mc.cores = num_cores)
+  df_mapq_read_counts = SINBAD::mcsapply(mapq_files, FUN = Rsamtools::countBam, mc.cores = num_cores)
   mapq_read_counts = unlist(df_mapq_read_counts['records', ] )
   names(mapq_read_counts) = gsub('.mapq_filtered.bam', '', names(mapq_read_counts))
 
 
   print('Counting rmdup filtered bam files')
-  df_rmdup_read_counts = SINBAD::mcsapply(rmdup_files, FUN = countBam, mc.cores = num_cores)
+  df_rmdup_read_counts = SINBAD::mcsapply(rmdup_files, FUN = Rsamtools::countBam, mc.cores = num_cores)
   rmdup_read_counts = unlist(df_rmdup_read_counts['records', ] )
   names(rmdup_read_counts) = gsub('.rmdup.bam', '', names(rmdup_read_counts))
 
 
   print('Counting nonconversion filtered bam files')
-  df_nc_filtered_read_counts = SINBAD::mcsapply(nc_filtered_files, FUN = countBam, mc.cores = num_cores)
+  df_nc_filtered_read_counts = SINBAD::mcsapply(nc_filtered_files, FUN = Rsamtools::countBam, mc.cores = num_cores)
   nc_filtered_read_counts = unlist(df_nc_filtered_read_counts['records', ] )
   names(nc_filtered_read_counts) = gsub('.rmdup.nonCG_filtered.bam', '', names(nc_filtered_read_counts))
 
 
   print('Counting organism bam files')
-  df_organism_read_counts = SINBAD::mcsapply(organism_bam_files, FUN = countBam, mc.cores = num_cores)
+  df_organism_read_counts = SINBAD::mcsapply(organism_bam_files, FUN = Rsamtools::countBam, mc.cores = num_cores)
   organism_read_counts = unlist(df_organism_read_counts['records', ] )
   names(organism_read_counts) = gsub('.organism.bam', '', names(organism_read_counts))
   print('Finished counting bam files')
