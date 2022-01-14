@@ -1085,7 +1085,7 @@ compute_coverage_rates <- function(alignment_dir, parallel = T, log_file)
 
   sbp <- Rsamtools::ScanBamParam(which=chrom_ranges )
 
-  p_param <- PileupParam(distinguish_nucleotides=FALSE,distinguish_strands=FALSE,
+  p_param <- Rsamtools::PileupParam(distinguish_nucleotides=FALSE,distinguish_strands=FALSE,
                          min_base_quality=10, min_nucleotide_depth=1)
 
 
