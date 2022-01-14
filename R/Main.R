@@ -346,7 +346,7 @@ wrap_align_sample <- function(sinbad_object, pattern = '')
 
   }
 
-
+  return(sinbad_object)
 }
 
 
