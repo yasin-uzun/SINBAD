@@ -53,7 +53,7 @@ convert_to_granges <- function(df_region)
 {
 
     gr_region <- with(df_region, GenomicRanges::GRanges(chrom,
-                                           GenomicRanges::IRanges(start+1, end),
+                                           GenomicRanges:::IRanges(start+1, end),
                                            strand = '*',
                                            region_name,
                                            region_type))
