@@ -30,4 +30,5 @@ Imports:
   ShortRead,
   umap,
   viridis,
+  IRanges
 RoxygenNote: 7.1.2

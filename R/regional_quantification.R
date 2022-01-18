@@ -157,7 +157,7 @@ compute_call_count_matrices <- function(  df_region,
     head(dt_cov)
     unique(dt_cov$chr)
 
-    gr_cov <- with(dt_cov, GenomicRanges::GRanges(chrom, GenomicRanges::IRanges(start+1, end), strand = '*', met_rate, met, demet)  )
+    gr_cov <- with(dt_cov, GenomicRanges::GRanges(chrom, IRanges::IRanges(start+1, end), strand = '*', met_rate, met, demet)  )
     gr_cov
 
     #dt_inter = data.table::data.table(intersect_bed(gr_region, gr_cov))
