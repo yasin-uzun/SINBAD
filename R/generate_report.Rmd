@@ -38,7 +38,7 @@ params:
 
 ```{r setup, include=FALSE}
 # library(flexdashboard)
-# library(data.table)
+# library(data.table::data.table)
 # library(magrittr)
 # library(kableExtra)
 # library(RColorBrewer)
@@ -245,7 +245,7 @@ tss.escore = colSums(tss.mat)
 ma <- function(x, n = 10){stats::filter(x, rep(1 / n, n), sides = 2)}
 tss.escore = ma(tss.escore)
 tss.escore = tss.escore[14:213]
-df = data.table(index = 10*(-100:99), escore = tss.escore/tss.escore[1])
+df = data.table::data.table(index = 10*(-100:99), escore = tss.escore/tss.escore[1])
 
 p0 <- ggplot(data = df, aes(x = index, y = escore)) + geom_line(size = 1, col = set.cols[1])  + theme_bw() +
   xlab('Distance to TSS (bp)') + ylab('TSS enrichment score') + theme(legend.title=element_blank(),
@@ -310,7 +310,7 @@ if(plotEPS){
 ### Overlapping with sequence annotated regions
 ```{r}
 
-qc_sele_df = data.table(frac = c(qc_sele$frac_peak, qc_sele$frac_tss, qc_sele$frac_promoter, qc_sele$frac_enh, qc_sele$frac_mito), 'type' = rep(c('Peaks', 'Tss', 'Promoter', 'Enhancer', 'Mito'), each = nrow(qc_sele)))
+qc_sele_df = data.table::data.table(frac = c(qc_sele$frac_peak, qc_sele$frac_tss, qc_sele$frac_promoter, qc_sele$frac_enh, qc_sele$frac_mito), 'type' = rep(c('Peaks', 'Tss', 'Promoter', 'Enhancer', 'Mito'), each = nrow(qc_sele)))
 
 qc_sele_df$type = factor(qc_sele_df$type, levels = c('Peaks', 'Tss', 'Promoter', 'Enhancer', 'Mito'))
 
@@ -410,7 +410,7 @@ if(file.exists(go_file)){
         print('No enriched terms in any of the two groups')
     }else{
         #go_res = fread(go_file)
-        go_res = data.table(go_res)
+        go_res = data.table::data.table(go_res)
         go_res[, 'score' := -log10(p.adjust)]
         go_res = go_res[order(-score), ]
         go_res = go_res[1:20, ]
@@ -473,7 +473,7 @@ do_DA <- function(mtx_score, clusters, test = 'wilcox',
     }
     
     pvs.adj = p.adjust(pvs, method = 'fdr')
-    res0 = data.table('feature' = features, 'cluster' = cluster0,
+    res0 = data.table::data.table('feature' = features, 'cluster' = cluster0,
                       'mean1' = mu1, 'mean2' = mu2,
                        'pv' = pvs, 'pv_adjust' = pvs.adj)
     
@@ -496,14 +496,14 @@ if(file.exists(seurat_file)){
 if(file.exists(paste0(down.dir, '/chromVar_obj.rds'))){
   chromVar.obj = readRDS(paste0(down.dir, '/chromVar_obj.rds'))
   #variability <- computeVariability(chromVar.obj)
-  #variability = data.table(variability, stringsAsFactors = F)
+  #variability = data.table::data.table(variability, stringsAsFactors = F)
   #variability = variability[order(-variability), ]
   
   ## calculate DA
   #dev = chromVar.obj@assays$data$deviations
   dev = deviations(chromVar.obj)
   da.res = do_DA(dev, 
-                 clusters = data.table('barcode' = rownames(metaData),
+                 clusters = data.table::data.table('barcode' = rownames(metaData),
                                        'cluster' = metaData$active_clusters),
                  topn = 10)
   rm(dev)
@@ -524,7 +524,7 @@ if(file.exists(paste0(down.dir, '/chromVar_obj.rds'))){
   rownames(sele.zscores) = ifelse(grepl(nnames, pattern = 'LINE'), nnames1, nnames)
   
   metaData$active_clusters = as.character(metaData$active_clusters)
-  metaData = data.table(metaData, keep.rownames = T)
+  metaData = data.table::data.table(metaData, keep.rownames = T)
   setkey(metaData, active_clusters)
   
   rr = metaData$rn[metaData$rn %in% colnames(sele.zscores)]

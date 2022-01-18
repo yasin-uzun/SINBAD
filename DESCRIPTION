@@ -11,7 +11,7 @@ LazyData: true
 biocViews:
 Imports:
   colorspace,
-  data.table,
+  data.table::data.table,
   DelayedArray,
   densityClust,
   doSNOW,

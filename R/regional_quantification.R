@@ -1,5 +1,5 @@
 # library(dplyr)
-# library(data.table)
+# library(data.table::data.table)
 # library(GenomicRanges)
 
 read_region_annot <- function(region_annot_file, format_file, type_filtering =  'none')
@@ -119,7 +119,7 @@ compute_call_count_matrices <- function(  df_region,
   #for(i in  1:length(cov_files))
   #result_list <- foreach::foreach(i=1:length(cov_files)) %dopar%
   met_hits_list <- foreach::`%dopar%`(foreach::foreach(i=1:length(cov_files)), {
-    # library(data.table)
+    # library(data.table::data.table)
     # library(GenomicRanges)
 
     print('************************')
@@ -133,7 +133,7 @@ compute_call_count_matrices <- function(  df_region,
 
 
     #dt_cov = fread(paste0(methylation_calls_dir, cov_file) )
-    dt_cov.dummy = data.table(data.frame(chrom = 'chrZz',
+    dt_cov.dummy = data.table::data.table(data.frame(chrom = 'chrZz',
                               start = 1,
                               end = 2,
                               met_rate = -.5,
@@ -160,7 +160,7 @@ compute_call_count_matrices <- function(  df_region,
     gr_cov <- with(dt_cov, GenomicRanges::GRanges(chrom, GenomicRanges::IRanges(start+1, end), strand = '*', met_rate, met, demet)  )
     gr_cov
 
-    #dt_inter = data.table(intersect_bed(gr_region, gr_cov))
+    #dt_inter = data.table::data.table(intersect_bed(gr_region, gr_cov))
     #dim(dt_inter)
     #head(dt_inter)
 
@@ -168,7 +168,7 @@ compute_call_count_matrices <- function(  df_region,
     class(hits_obj)
     da = as.data.frame(gr_region[queryHits(hits_obj)])
     db = as.data.frame(gr_cov[subjectHits(hits_obj)])
-    dt_inter <- data.table(cbind(da, db))
+    dt_inter <- data.table::data.table(cbind(da, db))
 
 
     quant_cols = c('met', 'demet')
