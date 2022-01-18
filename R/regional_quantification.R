@@ -164,10 +164,12 @@ compute_call_count_matrices <- function(  df_region,
     #dim(dt_inter)
     #head(dt_inter)
 
+    ??queryHits
+
     hits_obj <- GenomicAlignments::findOverlaps(gr_region, gr_cov)
     class(hits_obj)
-    da = as.data.frame(gr_region[queryHits(hits_obj)])
-    db = as.data.frame(gr_cov[subjectHits(hits_obj)])
+    da = as.data.frame(gr_region[IRanges::queryHits(hits_obj)])
+    db = as.data.frame(gr_cov[IRanges::subjectHits(hits_obj)])
     dt_inter <- data.table::data.table(cbind(da, db))
 
 
