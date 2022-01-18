@@ -53,14 +53,13 @@ convert_to_granges <- function(df_region)
 {
 
     gr_region <- with(df_region, GenomicRanges::GRanges(chrom,
-                                           GenomicRanges:::IRanges(start+1, end),
+                                           IRanges::IRanges(start+1, end),
                                            strand = '*',
                                            region_name,
                                            region_type))
 
     return(gr_region)
 }
-
 
 compute_region_met_matrix <- function(  list_call_count_matrices,
                                        min_call_count_threshold = 10)
