@@ -177,9 +177,12 @@ compute_call_count_matrices <- function(  df_region,
     library(data.table)
     print("??? load data.table")
 
+    print(summary(region_name))
+    print(summary(quant_cols))
+
     dt_aggr <- dt_inter[, lapply(.SD, sum), by = .(region_name), .SDcols = quant_cols  ]
     print("??? subset data.table")
-  
+
     length(unique(dt_aggr$region_name))
     head(dt_aggr)
     dim(dt_aggr)
