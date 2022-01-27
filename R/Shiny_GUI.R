@@ -33,6 +33,15 @@ choose.dir <- function() {
 }
 
 
+# helper function ensures no error when selection canceled
+file.choose <- function() {
+  tryCatch({
+    base::file.choose()
+  }, error = function(e) {
+  })
+}
+
+
 # helper function for creation of SINBAD object once appropriate
 try_create_object <- function(sample_name) {
     if (is.null(sinbad_object) && !is.null(raw_fastq_dir) && !is.null(demux_index_file) && !is.null(working_dir) && !is.null(sample_name)) {
