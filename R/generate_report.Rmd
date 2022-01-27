@@ -78,11 +78,11 @@ plotEPS = as.logical(plotEPS)
 mapping_qc_file = paste0(params$output_dir, '/summary/', OUTPUT_PREFIX,  '.MappingStats')
 
 fragments_file = paste0(params$output_dir, '/summary/', OUTPUT_PREFIX,  '.fragments.txt')
-frags = fread(fragments_file)
+frags = data.table::fread(fragments_file)
 names(frags) = c('chr', 'start', 'end', 'bc', 'ndup')
 
 
-mapping_qc = fread(mapping_qc_file, header = F)
+mapping_qc = data.table::fread(mapping_qc_file, header = F)
 
 lib_complx = nrow(frags)/sum(frags$ndup)
 lib_complx = paste0(100 * round(lib_complx, 3), '%')
@@ -107,16 +107,16 @@ Column
 ```{r}
 cell_mapping_qc_file = paste0(params$output_dir, '/summary/cell_barcodes.MappingStats')
 
-cell_mapping_qc = fread(cell_mapping_qc_file, header = F)
+cell_mapping_qc = data.table::fread(cell_mapping_qc_file, header = F)
 
 
 
 bc_stat_file = paste0(params$output_dir, '/summary/', OUTPUT_PREFIX,  '.qc_per_barcode.txt')
 selected_bcs = paste0(params$output_dir, '/filtered_matrix/', PEAK_CALLER, '/', CELL_CALLER, '/barcodes.txt')
 
-bc_stat = fread(bc_stat_file)
+bc_stat = data.table::fread(bc_stat_file)
 
-barcodes = fread(selected_bcs, header = F)$V1
+barcodes = data.table::fread(selected_bcs, header = F)$V1
 
 qc_sele = bc_stat[bc %in% barcodes, ]
 qc_nonsele = bc_stat[!bc %in% barcodes, ]
@@ -238,7 +238,7 @@ if(plotEPS){
 tss_escore_file = paste0(params$output_dir, '/signal/cell_barcodes.aggregated.mtx.gz')
 
 set.cols = brewer.pal(n=5, name = 'Dark2')
-tss.mat = fread(tss_escore_file)
+tss.mat = data.table::fread(tss_escore_file)
 tss.mat = tss.mat[, -c(1:6)]
 tss.mat[is.na(tss.mat)] = 0
 tss.escore = colSums(tss.mat)
@@ -409,7 +409,7 @@ if(file.exists(go_file)){
     if(nrow(go_res) == 0) {
         print('No enriched terms in any of the two groups')
     }else{
-        #go_res = fread(go_file)
+        #go_res = data.table::fread(go_file)
         go_res = data.table::data.table(go_res)
         go_res[, 'score' := -log10(p.adjust)]
         go_res = go_res[order(-score), ]
@@ -586,7 +586,7 @@ if(file.exists(footprint_stats.file)){
   # library(ggrepel)
   # library(gridExtra)
 #  # library(grid)
-  footprint_stats = fread(footprint_stats.file)
+  footprint_stats = data.table::fread(footprint_stats.file)
 
   footprint_stats[, 'motif1' := unlist(strsplit(Motif, '.', fixed = T))[3], by = Motif]
   footprint_stats[, 'motif2' := unlist(strsplit(Motif, '.', fixed = T))[4], by = Motif]
@@ -638,7 +638,7 @@ p
 cicero_conn.file = paste0(down.dir, '/cicero_interactions.txt')
 
 if(file.exists(cicero_conn.file)){
- conns = fread(cicero_conn.file)
+ conns = data.table::fread(cicero_conn.file)
  conns = data.frame(conns)
  temp <- tempfile()
 if(grepl(GENOME_NAME, pattern = 'mm10', ignore.case = T)) {

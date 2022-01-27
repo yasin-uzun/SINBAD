@@ -132,7 +132,7 @@ compute_call_count_matrices <- function(  df_region,
     cell_id = gsub(paste0(methylation_type,'_calls.'), '', cell_id)
 
 
-    #dt_cov = fread(paste0(methylation_calls_dir, cov_file) )
+    #dt_cov = data.table::fread(paste0(methylation_calls_dir, cov_file) )
     dt_cov.dummy = data.table::data.table(data.frame(chrom = 'chrZz',
                               start = 1,
                               end = 2,
@@ -142,7 +142,7 @@ compute_call_count_matrices <- function(  df_region,
 
 
     dt_cov = tryCatch({
-      fread(paste0(methylation_calls_dir, cov_file) )
+      data.table::fread(paste0(methylation_calls_dir, cov_file) )
     }, warning = function(w) {
       dt_cov.dummy
     }, error = function(e) {
