@@ -206,7 +206,7 @@ ui <- fluidPage(
                      br(),
 
                      actionButton(
-                       "btn_preprocess",
+                       "btn_pp",
                        "Preprocess",
                        class = "btn-warning",
                        width = '150px',
