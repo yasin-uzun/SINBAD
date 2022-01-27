@@ -7,7 +7,6 @@ raw_fastq_dir <- NULL
 working_dir <- NULL
 demux_index_file <- NULL
 
-
 # default objects (SETTINGS)
 sequencing_type <- "paired"
 demux_index_length <- 6
@@ -26,6 +25,12 @@ max_ratio_of_na_cells <- 0.25
 doParallel::stopImplicitCluster()
 cores <- parallel::detectCores()
 doParallel::registerDoParallel(cores = max(1, cores))
+
+
+# helper function OS-independent directory choice
+choose.dir <- function() {
+  tcltk::tclvalue(tcltk::tkchooseDirectory())
+}
 
 
 # helper function for creation of SINBAD object once appropriate
