@@ -260,6 +260,7 @@ process_bismark_bias_report <- function(cell_id, report_file)
 get_met_call_counts <- function(methylation_calls_dir, met_type = 'CpG')
 {
 
+  print('!!! get_met_call_counts')
   print('--------------------------------------------------------------------')
 
   cov_files= list.files(methylation_calls_dir, pattern = paste0( met_type, '.*', 'cov.gz'))
