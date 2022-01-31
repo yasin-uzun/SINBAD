@@ -19,9 +19,11 @@ Imports:
   flexdashboard,
   GenomicRanges,
   ggplot2,
+  IRanges,
   kableExtra,
   magrittr,
   parallel,
+  R.utils,
   RColorBrewer,
   readr,
   reshape2,
@@ -29,6 +31,5 @@ Imports:
   scales,
   ShortRead,
   umap,
-  viridis,
-  IRanges
+  viridis
 RoxygenNote: 7.1.2
