@@ -196,8 +196,8 @@ compute_call_count_matrices <- function(  df_region,
 
     rownames(df_aggr) = df_aggr$region_name
 
-    message("!!! df_region : ", names(df_region))
-    message("!!! df_aggr : ", names(df_aggr))
+    message("!!! df_region : ", paste(names(df_region), collapse = ", "))
+    message("!!! df_aggr : ", paste(names(df_aggr), collapse = ", "))
     df_aggr_x = base::merge(df_region, df_aggr, by.x = 'region_name', by.y = 'region_name', all.x = T)
 
     rownames(df_aggr_x) = df_aggr_x$region_name
