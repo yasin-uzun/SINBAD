@@ -297,8 +297,6 @@ get_met_call_counts <- function(methylation_calls_dir, met_type = 'CpG')
 
     num_calls = 0
 
-    num_calls = nrow(data.table::fread(paste0(methylation_calls_dir,  cov_file), tmpdir = methylation_calls_dir ))
-
     num_calls = tryCatch({
      nrow(data.table::fread(paste0(methylation_calls_dir,  cov_file), tmpdir = methylation_calls_dir ))
 
