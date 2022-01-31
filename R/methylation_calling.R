@@ -301,10 +301,13 @@ get_met_call_counts <- function(methylation_calls_dir, met_type = 'CpG')
      nrow(data.table::fread(paste0(methylation_calls_dir,  cov_file), tmpdir = methylation_calls_dir ))
 
     }, warning = function(w) {
+      print("!!! get_met_call_counts WARNING")
       0
     }, error = function(e) {
+      print("!!! get_met_call_counts ERROR")
       0
     }, finally = {
+      print("!!! get_met_call_counts FINALLY")
 
     }
     )
