@@ -176,19 +176,14 @@ compute_call_count_matrices <- function(  df_region,
     library(data.table)
   
     dt_aggr <- NULL
-    print("!!! tapply")
     lst <- tapply(dt_inter$region_name, 1:length(dt_inter$region_name), c)
-    print("!!! for")
     for (k in names(lst)) {
-      print("!!! subset")
       dt_inter_sub <- dt_inter[lst[[k]], ]
-      print("!!! row")
       row <- data.frame(
         region_name = k,
         met = sum(dt_inter_sub$met),
         demet = sum(dt_inter_sub$demet)
       )
-      print("!!! rbind")
       dt_aggr <- rbind(dt_aggr, row)
     }
 
