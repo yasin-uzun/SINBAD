@@ -181,7 +181,7 @@ compute_call_count_matrices <- function(  df_region,
     print("!!! for")
     for (k in names(lst)) {
       print("!!! subset")
-      dt_inter_sub <- dt_inter[lst[[k]]]
+      dt_inter_sub <- dt_inter[lst[[k]], ]
       print("!!! row")
       row <- data.frame(
         region_name = k,
