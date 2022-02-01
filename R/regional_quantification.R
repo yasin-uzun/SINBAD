@@ -178,15 +178,13 @@ compute_call_count_matrices <- function(  df_region,
 
     library(data.table)
   
+    print("!!! dt_inter")
+    print(dt_inter)
     dt_aggr <- dt_inter[, unlist(lapply(.SD, sum)), by = .(region_name), .SDcols = quant_cols ]
-
-    length(unique(dt_aggr$region_name))
-    head(dt_aggr)
-    dim(dt_aggr)
-
+  
+    print("!!! dt_inter")
+    print(dt_aggr)
     dt_aggr$call_count = dt_aggr$met + dt_aggr$demet
-
-
 
     #result_list[[cell_id]] = met_rate_vector
 
