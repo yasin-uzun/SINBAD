@@ -173,22 +173,36 @@ compute_call_count_matrices <- function(  df_region,
 
     quant_cols = c('met', 'demet')
 
-    library(data.table)
-  
-    dt_aggr <- NULL
-    lst <- tapply(dt_inter$region_name, 1:length(dt_inter$region_name), c)
-    for (k in names(lst)) {
-      dt_inter_sub <- dt_inter[lst[[k]], ]
-      row <- data.frame(
-        region_name = k,
-        met = sum(dt_inter_sub$met),
-        demet = sum(dt_inter_sub$demet)
-      )
-      dt_aggr <- rbind(dt_aggr, row)
+    # library(data.table)
+    print("!!! begin aggr")
+
+    keys <- sort(unique(dt_inter$region_name))
+    dt_aggr <- rep(list(c(met = 0, demet = 0)), length(keys))
+    dt_aggr <- setNames(dt_aggr, keys)
+ 
+    print("!!! loop")
+    for (i in 1:nrow(dt_inter)) {
+      if (i %% 1000 == 0) {
+        message("!!! row ", i)
+      }
+      region_name <- dt_inter[i, "region_name"]
+      met <- dt_inter[i, "met"]
+      demet <- dt_inter[i, "demet"]
+
+      dt_aggr[[region_name]]["met"] <- dt_aggr[[region_name]]["met"] + met
+      dt_aggr[[region_name]]["demet"] <- dt_aggr[[region_name]]["demet"] + demet
     }
 
-    print("!!! dt_inter")
-    print(dt_inter)
+    # lst <- tapply(dt_inter$region_name, 1:length(dt_inter$region_name), c)
+    # for (k in names(lst)) {
+    #   dt_inter_sub <- dt_inter[lst[[k]], ]
+    #   row <- data.frame(
+    #     region_name = k,
+    #     met = sum(dt_inter_sub$met),
+    #     demet = sum(dt_inter_sub$demet)
+    #   )
+    #   dt_aggr <- rbind(dt_aggr, row)
+    # }
   
     # dt_aggr <- dt_inter[, unlist(lapply(.SD, sum)), by = .(region_name), .SDcols = quant_cols ]
   
