@@ -176,10 +176,10 @@ compute_call_count_matrices <- function(  df_region,
     # library(data.table)
     print("!!! begin aggr")
   
-    dt_inter <- data.frame(
-      region_name = c("A", "A", "B"),
-      met = 1:3, demet = 1:3
-    )
+    # dt_inter <- data.frame(
+    #   region_name = c("A", "A", "B"),
+    #   met = 1:3, demet = 1:3
+    # )
 
     keys <- sort(unique(dt_inter$region_name))
     dt_aggr <- rep(list(c(met = 0, demet = 0)), length(keys))
