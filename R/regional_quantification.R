@@ -180,9 +180,9 @@ compute_call_count_matrices <- function(  df_region,
     dt_aggr <- rep(list(c(met = 0, demet = 0)), length(keys))
     dt_aggr <- setNames(dt_aggr, keys)
  
-    print("!!! loop")
+    message("!!! loop ", nrow(dt_inter))
     for (i in 1:nrow(dt_inter)) {
-      if (i %% 1000 == 0) {
+      if (i %% 100000 == 0) {
         message("!!! row ", i)
       }
       region_name <- dt_inter[i, "region_name"]
