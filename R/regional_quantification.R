@@ -214,8 +214,6 @@ compute_call_count_matrices <- function(  df_region,
   
     # dt_aggr <- dt_inter[, unlist(lapply(.SD, sum)), by = .(region_name), .SDcols = quant_cols ]
   
-    print("!!! dt_aggr")
-    print(dt_aggr)
     dt_aggr$call_count = dt_aggr$met + dt_aggr$demet
 
     #result_list[[cell_id]] = met_rate_vector
@@ -232,11 +230,13 @@ compute_call_count_matrices <- function(  df_region,
 
     rownames(df_aggr_x) = df_aggr_x$region_name
 
+    message("!!! done")
     df_aggr_x
   })
 
   # parallel::stopCluster(cl)  #not reached
-
+  
+  message("!!! cell_ids")
   temp = met_hits_list
   cell_ids = cov_files
   cell_ids = gsub('.organism.cov.gz', '', cell_ids)
@@ -246,6 +246,7 @@ compute_call_count_matrices <- function(  df_region,
 
   cell_ids = names(met_hits_list)
 
+  message("!!! to temp")
   temp = met_hits_list
   for(cell_id in cell_ids)
   {
@@ -260,19 +261,13 @@ compute_call_count_matrices <- function(  df_region,
   #met_hits_list = lapply(met_call_count_list, '[', df_region$region_name)
 
 
+  message("!!! lapply")
   met_call_count_list = lapply(met_hits_list, '[[', 'met')
   demet_call_count_list = lapply(met_hits_list, '[[', 'demet')
   total_call_count_list = lapply(met_hits_list, '[[', 'call_count')
 
-  head(lapply(met_call_count_list, length))
-  head(met_call_count_list[[1]])
-  length(met_call_count_list[[1]])
-
-  class(met_call_count_list[[1]])
-
   full_met_call_count_list = met_call_count_list
   full_total_call_count_list = total_call_count_list
-
 
   full_met_call_count_matrix = do.call('cbind', full_met_call_count_list)
   full_total_call_count_matrix = do.call('cbind', full_total_call_count_list)
@@ -280,13 +275,14 @@ compute_call_count_matrices <- function(  df_region,
   rownames(full_met_call_count_matrix) = df_region$region_name
   rownames(full_total_call_count_matrix) = df_region$region_name
 
+  message("!!! full_met_call_count_matrix")
   full_met_call_count_matrix[1:5, 1:5]
   full_total_call_count_matrix[1:5, 1:5]
 
-  list_call_count_matrices = list('full_met_call_count_matrix' = full_met_call_count_matrix,
-                     'full_total_call_count_matrix' = full_total_call_count_matrix
-                     )
-
+  list_call_count_matrices = list(
+    'full_met_call_count_matrix' = full_met_call_count_matrix,
+    'full_total_call_count_matrix' = full_total_call_count_matrix
+    )
 
   return(list_call_count_matrices)
 
