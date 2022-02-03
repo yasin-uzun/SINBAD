@@ -1,5 +1,5 @@
 # library(dplyr)
-library(data.table)
+# library(data.table)
 # library(GenomicRanges)
 
 read_region_annot <- function(region_annot_file, format_file, type_filtering =  'none')
@@ -211,6 +211,7 @@ compute_call_count_matrices <- function(  df_region,
     #   dt_aggr <- rbind(dt_aggr, row)
     # }
   
+    library(data.table)
     dt_aggr <- dt_inter[, vapply(.SD, sum, numeric(1)), by = "region_name", .SDcols = c("met", "demet") ]
     # dt_aggr <- dt_inter[, unlist(lapply(.SD, sum)), by = .(region_name), .SDcols = quant_cols ]
   
