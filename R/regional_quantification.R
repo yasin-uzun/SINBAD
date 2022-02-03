@@ -187,7 +187,7 @@ compute_call_count_matrices <- function(  df_region,
  
     message("!!! loop ", nrow(dt_inter))
     for (i in 1:nrow(dt_inter)) {
-      if (i %% 100000 == 0) {
+      if (i %% 25000 == 0) {
         message("!!! row ", i)
       }
       region_name <- dt_inter[i, "region_name"]
