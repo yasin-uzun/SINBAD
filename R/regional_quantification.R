@@ -119,6 +119,8 @@ compute_call_count_matrices <- function(  df_region,
   #for(i in  1:length(cov_files))
   #result_list <- foreach::foreach(i=1:length(cov_files)) %dopar%
   met_hits_list <- foreach::`%dopar%`(foreach::foreach(i=1:length(cov_files)), {
+    library(data.table)
+
     # library(data.table::data.table)
     # library(GenomicRanges)
 
@@ -133,7 +135,7 @@ compute_call_count_matrices <- function(  df_region,
 
 
     #dt_cov = data.table::fread(paste0(methylation_calls_dir, cov_file) )
-    dt_cov.dummy = data.table::data.table(data.frame(chrom = 'chrZz',
+    dt_cov.dummy = data.table(data.frame(chrom = 'chrZz',
                               start = 1,
                               end = 2,
                               met_rate = -.5,
@@ -142,7 +144,7 @@ compute_call_count_matrices <- function(  df_region,
 
 
     dt_cov = tryCatch({
-      data.table::fread(paste0(methylation_calls_dir, cov_file) )
+      fread(paste0(methylation_calls_dir, cov_file) )
     }, warning = function(w) {
       dt_cov.dummy
     }, error = function(e) {
@@ -169,7 +171,8 @@ compute_call_count_matrices <- function(  df_region,
 
     da = as.data.frame(gr_region[S4Vectors::queryHits(hits_obj)])
     db = as.data.frame(gr_cov[S4Vectors::subjectHits(hits_obj)])
-    dt_inter <- data.table::data.table(cbind(da, db))
+    
+    dt_inter <- data.table(cbind(da, db))
 
     quant_cols = c('met', 'demet')
 
@@ -211,7 +214,6 @@ compute_call_count_matrices <- function(  df_region,
     #   dt_aggr <- rbind(dt_aggr, row)
     # }
   
-    library(data.table)
     dt_aggr <- dt_inter[, vapply(.SD, sum, numeric(1)), by = "region_name", .SDcols = c("met", "demet") ]
     # dt_aggr <- dt_inter[, unlist(lapply(.SD, sum)), by = .(region_name), .SDcols = quant_cols ]
   
