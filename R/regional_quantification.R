@@ -118,7 +118,9 @@ compute_call_count_matrices <- function(  df_region,
 
   #for(i in  1:length(cov_files))
   #result_list <- foreach::foreach(i=1:length(cov_files)) %dopar%
-  met_hits_list <- foreach::`%dopar%`(foreach::foreach(i=1:length(cov_files)), {
+  # met_hits_list <- foreach::`%dopar%`(foreach::foreach(i=1:length(cov_files)), {
+  met_hits_list <- list()
+  for (i in 1:length(cov_files)) {
     library(data.table)
 
     # library(data.table::data.table)
@@ -237,7 +239,9 @@ compute_call_count_matrices <- function(  df_region,
     print(summary(df_aggr_x))
     print(df_aggr_x[1:3, 1:3])
     df_aggr_x
-  })
+
+    met_hits_list[[i]] <- df_aggr_x
+  }
 
   # parallel::stopCluster(cl)  #not reached
   
