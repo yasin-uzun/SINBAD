@@ -184,6 +184,7 @@ compute_call_count_matrices <- function(  df_region,
     #   region_name = c("A", "A", "B"),
     #   met = 1:3, demet = 1:3
     # )
+    # dt_inter <- do.call(rbind, rep(list(dt_inter), 3000))
 
     keys <- sort(unique(dt_inter$region_name))
     dt_aggr <- rep(list(c(met = 0, demet = 0)), length(keys))
@@ -194,9 +195,9 @@ compute_call_count_matrices <- function(  df_region,
       if (i %% 25000 == 0) {
         message("!!! row ", i)
       }
-      region_name <- dt_inter[i, "region_name"]
-      met <- dt_inter[i, "met"]
-      demet <- dt_inter[i, "demet"]
+      region_name <- dt_inter[[i, "region_name"]]
+      met <- dt_inter[[i, "met"]]
+      demet <- dt_inter[[i, "demet"]]
 
       dt_aggr[[region_name]]["met"] <- dt_aggr[[region_name]]["met"] + met
       dt_aggr[[region_name]]["demet"] <- dt_aggr[[region_name]]["demet"] + demet
