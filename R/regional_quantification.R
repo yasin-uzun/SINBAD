@@ -206,18 +206,19 @@ compute_call_count_matrices <- function(  df_region,
     # dt_aggr <- as.data.frame(do.call(rbind, dt_aggr))
     # dt_aggr$region_name <- rownames(dt_aggr)
 
-    # lst <- tapply(dt_inter$region_name, 1:length(dt_inter$region_name), c)
-    # for (k in names(lst)) {
-    #   dt_inter_sub <- dt_inter[lst[[k]], ]
-    #   row <- data.frame(
-    #     region_name = k,
-    #     met = sum(dt_inter_sub$met),
-    #     demet = sum(dt_inter_sub$demet)
-    #   )
-    #   dt_aggr <- rbind(dt_aggr, row)
-    # }
+    dt_aggr <- NULL
+    lst <- tapply(dt_inter$region_name, 1:length(dt_inter$region_name), c)
+    for (k in names(lst)) {
+      dt_inter_sub <- dt_inter[lst[[k]], ]
+      row <- data.frame(
+        region_name = k,
+        met = sum(dt_inter_sub$met),
+        demet = sum(dt_inter_sub$demet)
+      )
+      dt_aggr <- rbind(dt_aggr, row)
+    }
   
-    dt_aggr <- dt_inter[, vapply(.SD, sum, numeric(1)), by = "region_name", .SDcols = c("met", "demet") ]
+    # dt_aggr <- dt_inter[, vapply(.SD, sum, numeric(1)), by = "region_name", .SDcols = c("met", "demet") ]
     # dt_aggr <- dt_inter[, unlist(lapply(.SD, sum)), by = .(region_name), .SDcols = quant_cols ]
   
     dt_aggr$call_count = dt_aggr$met + dt_aggr$demet
