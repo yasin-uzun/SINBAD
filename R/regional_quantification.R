@@ -180,7 +180,8 @@ compute_call_count_matrices <- function(  df_region,
     quant_cols = c('met', 'demet')
 
     print("!!! begin aggr")
-  
+    print(str(dt_inter))
+
     # dt_inter <- data.table(
     #   region_name = c("A", "A", "B"),
     #   met = 1:3, demet = 1:3
