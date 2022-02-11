@@ -186,25 +186,25 @@ compute_call_count_matrices <- function(  df_region,
     # )
     # dt_inter <- do.call(rbind, rep(list(dt_inter), 3000))
 
-    keys <- sort(unique(dt_inter$region_name))
-    dt_aggr <- rep(list(c(met = 0, demet = 0)), length(keys))
-    dt_aggr <- setNames(dt_aggr, keys)
+    # keys <- sort(unique(dt_inter$region_name))
+    # dt_aggr <- rep(list(c(met = 0, demet = 0)), length(keys))
+    # dt_aggr <- setNames(dt_aggr, keys)
  
-    message("!!! loop ", nrow(dt_inter))
-    for (i in 1:nrow(dt_inter)) {
-      if (i %% 25000 == 0) {
-        message("!!! row ", i)
-      }
-      region_name <- dt_inter[[i, "region_name"]]
-      met <- dt_inter[[i, "met"]]
-      demet <- dt_inter[[i, "demet"]]
+    # message("!!! loop ", nrow(dt_inter))
+    # for (i in 1:nrow(dt_inter)) {
+    #   if (i %% 25000 == 0) {
+    #     message("!!! row ", i)
+    #   }
+    #   region_name <- dt_inter[[i, "region_name"]]
+    #   met <- dt_inter[[i, "met"]]
+    #   demet <- dt_inter[[i, "demet"]]
 
-      dt_aggr[[region_name]]["met"] <- dt_aggr[[region_name]]["met"] + met
-      dt_aggr[[region_name]]["demet"] <- dt_aggr[[region_name]]["demet"] + demet
-    }
+    #   dt_aggr[[region_name]]["met"] <- dt_aggr[[region_name]]["met"] + met
+    #   dt_aggr[[region_name]]["demet"] <- dt_aggr[[region_name]]["demet"] + demet
+    # }
 
-    dt_aggr <- as.data.frame(do.call(rbind, dt_aggr))
-    dt_aggr$region_name <- rownames(dt_aggr)
+    # dt_aggr <- as.data.frame(do.call(rbind, dt_aggr))
+    # dt_aggr$region_name <- rownames(dt_aggr)
 
     # lst <- tapply(dt_inter$region_name, 1:length(dt_inter$region_name), c)
     # for (k in names(lst)) {
@@ -217,7 +217,7 @@ compute_call_count_matrices <- function(  df_region,
     #   dt_aggr <- rbind(dt_aggr, row)
     # }
   
-    # dt_aggr <- dt_inter[, vapply(.SD, sum, numeric(1)), by = "region_name", .SDcols = c("met", "demet") ]
+    dt_aggr <- dt_inter[, vapply(.SD, sum, numeric(1)), by = "region_name", .SDcols = c("met", "demet") ]
     # dt_aggr <- dt_inter[, unlist(lapply(.SD, sum)), by = .(region_name), .SDcols = quant_cols ]
   
     dt_aggr$call_count = dt_aggr$met + dt_aggr$demet
