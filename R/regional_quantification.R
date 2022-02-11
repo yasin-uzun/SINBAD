@@ -173,8 +173,9 @@ compute_call_count_matrices <- function(  df_region,
 
     da = as.data.frame(gr_region[S4Vectors::queryHits(hits_obj)])
     db = as.data.frame(gr_cov[S4Vectors::subjectHits(hits_obj)])
-    
-    dt_inter <- data.table(cbind(da, db))
+  
+    # dt_inter <- data.table(cbind(da, db))
+    dt_inter <- cbind(da, db)
 
     quant_cols = c('met', 'demet')
 
