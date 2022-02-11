@@ -1,5 +1,5 @@
 # library(dplyr)
-# library(data.table)
+library(data.table)
 # library(GenomicRanges)
 
 read_region_annot <- function(region_annot_file, format_file, type_filtering =  'none')
