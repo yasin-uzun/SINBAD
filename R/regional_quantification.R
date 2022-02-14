@@ -175,12 +175,13 @@ compute_call_count_matrices <- function(  df_region,
     db = as.data.frame(gr_cov[S4Vectors::subjectHits(hits_obj)])
   
     # dt_inter <- data.table(cbind(da, db))
-    dt_inter <- cbind(da, db)
+    dt_inter <- data.frame(cbind(da, db))
 
     quant_cols = c('met', 'demet')
 
     print("!!! begin aggr")
     print(str(dt_inter))
+    print(head(dt_inter))
 
     # dt_inter <- data.table(
     #   region_name = c("A", "A", "B"),
