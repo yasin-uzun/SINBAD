@@ -199,7 +199,6 @@ compute_call_count_matrices <- function(  df_region,
         message("!!! row ", i)
       }
       region_name <- dt_inter[[i, "region_name"]]
-      print(region_name)
 
       met <- dt_inter[[i, "met"]]
       demet <- dt_inter[[i, "demet"]]
